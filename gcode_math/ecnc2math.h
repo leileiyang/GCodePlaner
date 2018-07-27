@@ -37,6 +37,14 @@ int IsGreater(double a, double b);
 /// 0: a >= b
 int IsLesser(double a, double b);
 
+/// 1: a >= b
+/// 0: a < b
+int IsGreaterEqual(double a, double b);
+
+/// 1: a <= b
+/// 0: a > b
+int IsLesserEqual(double a, double b);
+
 #ifdef __cplusplus
 }
 #endif

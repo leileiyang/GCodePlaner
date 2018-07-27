@@ -15,10 +15,16 @@ TEMPLATE = app
 SOURCES += main.cpp\
         gcodeplaner.cpp \
     gcodepath.cpp \
-    ecnc2math.c
+    gcode/GCodeParser.cpp \
+    gcode/GCommand.cpp \
+    gcode_math/ecnc2math.c \
+    gcode_math/math_object.cpp
 
 HEADERS  += gcodeplaner.h \
     gcodepath.h \
-    ecnc2math.h
+    gcode/GCodeParser.h \
+    gcode/GCommand.h \
+    gcode_math/ecnc2math.h \
+    gcode_math/math_object.h
 
 FORMS    += gcodeplaner.ui

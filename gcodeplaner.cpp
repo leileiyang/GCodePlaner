@@ -4,7 +4,7 @@
 
 #include "ui_gcodeplaner.h"
 
-#include "ecnc2math.h"
+#include "gcode_math/ecnc2math.h"
 
 GCodePlaner::GCodePlaner(QWidget *parent) :
     QMainWindow(parent),

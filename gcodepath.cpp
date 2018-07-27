@@ -4,7 +4,8 @@
 
 #include <QtGui/QPainter>
 
-#include "ecnc2math.h"
+#include "gcode_math/ecnc2math.h"
+#include "gcode_math/math_object.h"
 
 GCodePath::GCodePath(QColor color, double width, QGraphicsItem *parent):
     QGraphicsItem(parent),
@@ -36,55 +37,25 @@ void GCodePath::AddLine(double x1, double y1, double x2, double y2) {
 void GCodePath::AddArc(const QPointF &start_point, const QPointF &end_point,
                        const QPointF &center, int cw_ccw) {
 
-  double start_ang;
-  double span_ang;
-  ThreePoint2Angle(start_point, end_point, center, cw_ccw, start_ang, span_ang);
+  Point_2D start_point_2d = {start_point.x(), start_point.y()};
+  Point_2D end_point_2d = {end_point.x(), end_point.y()};
+  Point_2D center_2d = {center.x(), center.y()};
 
-  double r = sqrt(pow(end_point.x() - center.x(), 2)
-      + pow(end_point.y() - center.y(), 2));
-
-  path_.arcTo(center.x() - r, center.y() - r, 2 * r, 2 * r, start_ang, span_ang);
+  AddArc(start_point_2d, end_point_2d, center_2d, cw_ccw);
 }
 
-void GCodePath::ThreePoint2Angle(const QPointF &start_pos,
-                               const QPointF &end_pos,
-                               const QPointF &center, int cw_ccw,
-                               double &start_ang, double &span_ang) {
+void GCodePath::AddArc(const Point_2D &start_point, const Point_2D &end_point,
+                const Point_2D &center, int cw_ccw) {
 
-  QPointF vec_oa(start_pos.x() - center.x(), start_pos.y() - center.y());
-  QPointF vec_ob(end_pos.x() - center.x(), end_pos.y() - center.y());
-  start_ang = CalcuAngle(vec_oa);
-  double end_ang = CalcuAngle(vec_ob);
-  start_ang = start_ang >= 0 ? start_ang : 360 + start_ang;
-  end_ang = end_ang >= 0? end_ang : 360 + end_ang;
-  span_ang = end_ang - start_ang;
+  double start_ang = CenterAngle(start_point, center);
+  double end_ang = CenterAngle(end_point, center);
+  double span_ang = SpanCenterAngle(start_ang, end_ang, cw_ccw);
 
-  if (cw_ccw) { // clockwise
-    if (IsLesser(span_ang,0) || IsEqual(span_ang, 0)) {
-      span_ang += 360;
-    }
-  } else { // counter-clockwise
-    if (IsGreater(span_ang ,0) || IsEqual(span_ang, 0)) {
-      span_ang -= 360;
-    }
-  }
+  double r = sqrt(pow(end_point.x - center.x, 2)
+      + pow(end_point.y - center.y, 2));
+
+  path_.arcTo(center.x - r, center.y - r, 2 * r, 2 * r, start_ang, span_ang);
 }
-
-double GCodePath::CalcuAngle(const QPointF &vec_oa) {
-  QPointF vec_ox(3, 0);
-  double sign = 1;
-  double cos_angle = (vec_oa.x() * vec_ox.x() + vec_oa.y() * vec_ox.y()) /
-      (sqrt(vec_oa.x() * vec_oa.x() + vec_oa.y() * vec_oa.y())
-      * sqrt(vec_ox.x() * vec_ox.x() + vec_ox.y() * vec_ox.y()));
-
-  if (IsLesser(vec_oa.y(), 0)) {
-    sign = 1;
-  } else {
-    sign = -1;
-  }
-  return acos(cos_angle) * 180 / PI * sign;
-}
-
 
 void GCodePath::paint(QPainter *painter,
                       const QStyleOptionGraphicsItem * /*option*/,

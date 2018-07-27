@@ -39,3 +39,11 @@ int IsGreater(double a, double b) {
 int IsLesser(double a, double b) {
     return FuzzyCompare(a, b) < 0 ? 1 : 0;
 }
+
+int IsGreaterEqual(double a, double b) {
+    return IsGreater(a, b) || IsEqual(a, b);
+}
+
+int IsLesserEqual(double a, double b) {
+    return IsLesser(a, b) || IsEqual(a, b);
+}

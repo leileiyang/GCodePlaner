@@ -3,31 +3,11 @@
 
 #include <QMainWindow>
 
+#include "gcode_math/math_object.h"
+
 namespace Ui {
 class GCodePlaner;
 }
-
-struct Point_2D {
-  double x;
-  double y;
-};
-
-struct GCodeLine {
-  Point_2D start_point;
-  Point_2D end_point;
-};
-
-struct GCodeCircle {
-  Point_2D center;
-  double r;
-};
-
-struct GCodeArc {
-  Point_2D start_point;
-  Point_2D end_point;
-  Point_2D center;
-  double r;
-};
 
 class GCodePlaner : public QMainWindow
 {

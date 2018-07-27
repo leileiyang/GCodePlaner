@@ -4,6 +4,8 @@
 #include <QtGui/QGraphicsItem>
 #include <QtGui/QPen>
 
+#include "gcode_math/math_object.h"
+
 class GCodePath: public QGraphicsItem  {
 public:
     GCodePath(QColor color, double width, QGraphicsItem *parent = 0);
@@ -30,13 +32,10 @@ public:
     void AddArc(const QPointF &start_point, const QPointF &end_point,
                 const QPointF &center, int cw_ccw);
 
-    void Clear();
+    void AddArc(const Point_2D &start_point, const Point_2D &end_point,
+                const Point_2D &center, int cw_ccw);
 
-    static double CalcuAngle(const QPointF &vec_oa);
-    static void ThreePoint2Angle(const QPointF &start_pos,
-                                 const QPointF &end_pos,
-                                 const QPointF &center, int cw_ccw,
-                                 double &start_ang, double &span_ang);
+    void Clear();
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,

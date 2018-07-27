@@ -4,29 +4,14 @@
 #include <string>
 #include <vector>
 
-struct GCode {
-  char type;
-  int index;
-
-  double x_start;
-  double y_start;
-  double x_end;
-  double y_end;
-
-  double i_center;
-  double j_center;
-  double r_radius;
-  double f_speed;
-  double length;
-};
-
+#include "GCommand.h"
 
 class GCodeParser {
  public:
   int ParseGCode(const std::string &file_name);
 
  private:
-  std::vector<GCode> gcodes_;
+  std::vector<GCommand> gcodes_;
 
 };
 
