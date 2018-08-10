@@ -53,3 +53,13 @@ double SpanCenterAngle(double start_angle, double end_angle, int cw_ccw) {
   }
   return span_ang;
 }
+
+double RoundAngle(double angle) {
+  if (IsLesser(angle, 0)) {
+    double n = ceil(angle / -360);
+    angle -= (-360 * n);
+  } else if (IsGreater(angle, 360)) {
+    angle = fmod(angle, 360);
+  }
+  return angle;
+}

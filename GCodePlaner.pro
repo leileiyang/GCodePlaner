@@ -18,13 +18,18 @@ SOURCES += main.cpp\
     gcode/GCodeParser.cpp \
     gcode/GCommand.cpp \
     gcode_math/ecnc2math.c \
-    gcode_math/math_object.cpp
+    gcode_math/math_object.cpp \
+    shapemonitor.cpp \
+    pathmanager.cpp
 
 HEADERS  += gcodeplaner.h \
     gcodepath.h \
     gcode/GCodeParser.h \
     gcode/GCommand.h \
     gcode_math/ecnc2math.h \
-    gcode_math/math_object.h
+    gcode_math/math_object.h \
+    shapemonitor.h \
+    pathmanager.h
 
-FORMS    += gcodeplaner.ui
+FORMS    += gcodeplaner.ui \
+    shapemonitor.ui

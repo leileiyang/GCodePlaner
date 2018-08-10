@@ -1,6 +1,8 @@
 #ifndef GCODE_GCOMMAND_H_
 #define GCODE_GCOMMAND_H_
 
+#include <string>
+
 enum GMID {
   M02, G00, G01, G02, G03, G04, G92, G40, G41, G42, 
   G20, G21, G90, G91, G99, G26, G27, G28, G22, G80, 
@@ -29,6 +31,8 @@ class GCommand {
   double length_;
   double start_angle_;
   double end_angle_;
+
+  std::string ext_args_;
 };
 
 #endif

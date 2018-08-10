@@ -31,5 +31,8 @@ double SpanCenterAngle(double start_angle, double end_angle, int cw_ccw);
 double SpanCenterAngle(const Point_2D &start_pos, const Point_2D &end_pos,
                        const Point_2D &center, int cw_ccw);
 
+/// round angle to [0, 360]
+double RoundAngle(double angle);
+
 #endif // MATH_OBJECT_H
 

@@ -20,6 +20,7 @@ GCommand::GCommand(const GCommand &other) {
   length_ = other.length_;
   start_angle_ = other.start_angle_;
   end_angle_ = other.end_angle_;
+  ext_args_ = other.ext_args_;
 }
 
 GCommand& GCommand::operator=(const GCommand &other) {
@@ -38,5 +39,6 @@ GCommand& GCommand::operator=(const GCommand &other) {
   length_ = other.length_;
   start_angle_ = other.start_angle_;
   end_angle_ = other.end_angle_;
+  ext_args_ = other.ext_args_;
   return *this;
 }
