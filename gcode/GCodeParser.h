@@ -23,11 +23,17 @@ class GCodeParser {
   int parse_status_;
 
   bool IsWithLineNo(const std::string line, char *content);
-  int GetCmdType(char *content, int &cmd_index);
-  void ParseLine(int index, const char *content);
-  void ParseArgs(char arg_name, double arg_value);
+  void ParseCommand(char *content);
 
-  void ParseArc(int index, const char *content);
+  int GetCmdType(char *content, int &cmd_index);
+  void GetCmdName(int cmd_type, int cmd_index);
+  void ParseGCommand(int cmd_index, const char *content);
+  void ParseMCommand(int cmd_index, const char *content);
+
+  void ParseOneArgument(const char *content);
+  void ParseLine(const char *content);
+  void ParseArc(const char *content);
+  void ProcessArgs(char arg_name, double arg_value);
 };
 
 #endif // GCODE_GCODEPARSER_H_
