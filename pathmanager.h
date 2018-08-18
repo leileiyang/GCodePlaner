@@ -14,7 +14,7 @@ public:
 
     // opt:0, draw the original gcode
     //     1. draw the gcode with kerf
-    void DrawGCode(const GCodeParser &gcode_parser, int opt);
+    //void DrawGCode(const GCodeParser &gcode_parser, int opt);
 
 signals:
     void newScene(QGraphicsScene *scene);

@@ -10,9 +10,6 @@ class GCodePath: public QGraphicsItem  {
 public:
     GCodePath(QColor color, double width, QGraphicsItem *parent = 0);
 
-    GCodePath(const GCodePath &other);
-    GCodePath& operator=(const GCodePath &other);
-
     bool IsEmpty() const;
     void SetColor(const QColor &color) {
         color_ = color;
@@ -47,6 +44,9 @@ private:
     QPainterPath path_;
     QColor color_;
     double width_;
+
+    GCodePath(const GCodePath &other);
+    GCodePath& operator=(const GCodePath &other);
 
 };
 

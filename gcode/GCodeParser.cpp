@@ -127,6 +127,23 @@ void GCodeParser::ParseArc(const char *content) {
   }
 }
 
+void GCodeParser::ParseFourArguments(const char *content) {
+  char arg_names[4] = {0};
+  double arg_values[4] = {0.};
+  sscanf(content, "%c%lf %c%lf %c%lf %c%lf",
+         &arg_names[0], &arg_values[0],
+         &arg_names[1], &arg_values[1],
+         &arg_names[2], &arg_values[2],
+         &arg_names[3], &arg_values[3]);
+
+  if (current_cmd_ == G99) {
+    scale_ = arg_values[0];
+    rotate_angle_ = arg_values[1];
+    x_mirror_ = (int)arg_values[2];
+    y_mirror_ = (int)arg_values[3];
+  }
+}
+
 void GCodeParser::GetCmdName(int cmd_type, int cmd_index) {
   if (cmd_type == 'g' || cmd_type == 'G') {
     switch (cmd_index) {
@@ -135,6 +152,10 @@ void GCodeParser::GetCmdName(int cmd_type, int cmd_index) {
     case 2: current_cmd_.name_ = G02; break;
     case 3: current_cmd_.name_ = G03; break;
     case 4: current_cmd_.name_ = G04; break;
+    case 40: current_cmd_.name_ = G40; break;
+    case 41: current_cmd_.name_ = G41; break;
+    case 42: current_cmd_.name_ = G42; break;
+    case 99: current_cmd_.name_ = G99; break;
     }
   } else if (cmd_type == 'm' || cmd_type == 'M') {
     switch (cmd_index) {
@@ -150,32 +171,26 @@ void GCodeParser::ParseGCommand(int cmd_index, const char *content) {
   if (cmd_index == -1) { // default command
     switch (current_cmd_.name_) {
     case G00:
-    case G01:
-      ParseLine(content);
-      break;
+    case G01: ParseLine(content); break;
     case G02:
-    case G03:
-      ParseArc(content);
-      break;
-    default:
-      break;
+    case G03: ParseArc(content); break;
+    default: break;
     }
   } else {
     GetCmdName('G', cmd_index);
     // get command arguments
     switch (cmd_index) {
     case 0:
-    case 1:
-      ParseLine(content);
-      break;
+    case 1: ParseLine(content); break;
     case 2:
-    case 3:
-      ParseArc(content);
-      break;
-    case 4:
-      ParseOneArgument(content);
-    default:
-      break;
+    case 3: ParseArc(content); break;
+    case 4: ParseOneArgument(content); break;
+    case 20: g21_ = false; break;
+    case 21: g21_ = true; break;
+    case 90: g90_ = true; break;
+    case 91: g90_ = false; break;
+    case 99: ParseFourArguments(content); break;
+    default: break;
     }
   }
 }

@@ -22,6 +22,11 @@ class GCodeParser {
   bool g21_;
   int parse_status_;
 
+  double scale_;
+  double rotate_angle_;
+  int x_mirror_;
+  int y_mirror_;
+
   bool IsWithLineNo(const std::string line, char *content);
   void ParseCommand(char *content);
 
@@ -31,6 +36,7 @@ class GCodeParser {
   void ParseMCommand(int cmd_index, const char *content);
 
   void ParseOneArgument(const char *content);
+  void ParseFourArguments(const char *content);
   void ParseLine(const char *content);
   void ParseArc(const char *content);
   void ProcessArgs(char arg_name, double arg_value);

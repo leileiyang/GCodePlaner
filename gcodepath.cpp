@@ -16,19 +16,6 @@ GCodePath::GCodePath(QColor color, double width, QGraphicsItem *parent):
   setAcceptHoverEvents(true);
 }
 
-GCodePath::GCodePath(const GCodePath &other) {
-    path_ = other.path_;
-    color_ = other.color_;
-    width_ = other.width_;
-}
-
-GCodePath& GCodePath::operator =(const GCodePath &other) {
-    path_ = other.path_;
-    color_ = other.color_;
-    width_ = other.width_;
-    return *this;
-}
-
 void GCodePath::AddLine(double x1, double y1, double x2, double y2) {
     path_.moveTo(x1, y1);
     path_.lineTo(x2, y2);
