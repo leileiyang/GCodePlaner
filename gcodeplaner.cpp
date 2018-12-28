@@ -4,6 +4,8 @@
 
 #include "ui_gcodeplaner.h"
 
+#include <QtGui/QFileDialog>
+
 #include "gcode_math/ecnc2math.h"
 
 GCodePlaner::GCodePlaner(QWidget *parent) :
@@ -123,3 +125,13 @@ double GCodePlaner::VectorDot(const Point_2D &vec_a, const Point_2D &vec_b) {
   return vec_a.x * vec_b.x + vec_a.y * vec_b.y;
 }
 
+
+void GCodePlaner::on_actionOpen_triggered()
+{
+  QString file_name = QFileDialog::getOpenFileName(this, tr("Open File"),
+      "/home");
+
+  gcode_parser_.ParseGCodeFromFile(file_name.toStdString());
+  path_manager_.DrawGCode(gcode_parser_);
+  ui->shape_monitor_->setScene(path_manager_.Scene());
+}

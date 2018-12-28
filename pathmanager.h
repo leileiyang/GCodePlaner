@@ -5,6 +5,7 @@
 #include <QtGui/QGraphicsScene>
 
 #include "gcode/GCodeParser.h"
+#include "gcodepath.h"
 
 class PathManager : public QObject
 {
@@ -12,9 +13,11 @@ class PathManager : public QObject
 public:
     explicit PathManager(QObject *parent = 0);
 
-    // opt:0, draw the original gcode
-    //     1. draw the gcode with kerf
-    //void DrawGCode(const GCodeParser &gcode_parser, int opt);
+    void DrawGCode(const GCodeParser &gcode_parser);
+
+    QGraphicsScene *Scene () {
+      return scene_;
+    }
 
 signals:
     void newScene(QGraphicsScene *scene);
@@ -23,6 +26,8 @@ public slots:
 
 private:
   QGraphicsScene *scene_;
+  GCodePath move_path_;
+  GCodePath cutting_path_;
 
 };
 

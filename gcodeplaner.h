@@ -5,6 +5,9 @@
 
 #include "gcode_math/math_object.h"
 
+#include "gcode/GCodeParser.h"
+#include "pathmanager.h"
+
 namespace Ui {
 class GCodePlaner;
 }
@@ -30,8 +33,14 @@ public:
   bool PointOnArc(const Point_2D &point, const GCodeArc &arc);
 
 
+private slots:
+  void on_actionOpen_triggered();
+
 private:
     Ui::GCodePlaner *ui;
+
+    GCodeParser gcode_parser_;
+    PathManager path_manager_;
 };
 
 #endif // GCODEPLANER_H

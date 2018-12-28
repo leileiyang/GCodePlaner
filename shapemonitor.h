@@ -14,8 +14,8 @@ class ShapeMonitor : public QWidget
     Q_OBJECT
 
 public:
-    explicit ShapeMonitor(QWidget *parent = 0);
-    ~ShapeMonitor();
+  explicit ShapeMonitor(QWidget *parent = 0);
+  ~ShapeMonitor();
 
 public slots:
     void setScene(QGraphicsScene *scene);
