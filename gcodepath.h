@@ -19,8 +19,13 @@ public:
         width_ = width;
     }
 
-    void MoveTo(double x, double y);
-    void MoveTo(const QPointF &pos);
+    void MoveTo(double x, double y) {
+      path_.moveTo(x, y);
+    }
+
+    void MoveTo(const QPointF &pos) {
+      path_.moveTo(pos);
+    }
 
     void AddPoint(double x, double y);
     void AddPoint(const QPointF &pos);
