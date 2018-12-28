@@ -9,6 +9,15 @@
 const static double RATIO_G20_TO_G21 = 25.4;
 
 
+GCodeParser::GCodeParser():
+  g90_(true),
+  g21_(true),
+  parse_status_(PARSE_OK),
+  scale_(1.0),
+  rotate_angle_(0.),
+  x_mirror_(0),
+  y_mirror_(0) {}
+
 bool GCodeParser::IsWithLineNo(const std::string line, char *content) {
   int n = 0;
   int match_num = sscanf(line.c_str(), " %*[Nn]%d %255[^\001]", &n, content);
@@ -136,7 +145,7 @@ void GCodeParser::ParseFourArguments(const char *content) {
          &arg_names[2], &arg_values[2],
          &arg_names[3], &arg_values[3]);
 
-  if (current_cmd_ == G99) {
+  if (current_cmd_.name_ == G99) {
     scale_ = arg_values[0];
     rotate_angle_ = arg_values[1];
     x_mirror_ = (int)arg_values[2];
@@ -238,6 +247,8 @@ int GCodeParser::ParseGCodeFromFile(const std::string &file_name) {
     }
     gcodes_.push_back(current_cmd_);
     current_cmd_.line_no_++;
+    current_cmd_.x0_ = current_cmd_.x_;
+    current_cmd_.y0_ = current_cmd_.y_;
   }
   return PARSE_OK;
 }

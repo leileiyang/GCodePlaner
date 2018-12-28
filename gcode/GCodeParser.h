@@ -6,6 +6,8 @@
 
 #include "GCommand.h"
 
+class PathManager;
+
 enum PARSE_STATUS {
   PARSE_OK,
   PARSE_SYNTAX_ERROR,
@@ -13,7 +15,10 @@ enum PARSE_STATUS {
 
 class GCodeParser {
  public:
+  GCodeParser();
   int ParseGCodeFromFile(const std::string &file_name);
+
+  friend class PathManager;
 
  private:
   std::vector<GCommand> gcodes_;
