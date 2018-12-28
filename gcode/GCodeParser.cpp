@@ -6,10 +6,12 @@
 
 #include <fstream>
 
+#include "gcode_math/ecnc2math.h"
+
 const static double RATIO_G20_TO_G21 = 25.4;
 
-
-GCodeParser::GCodeParser():
+GCodeParser::GCodeParser(std::vector<GCommand> &gcodes):
+  gcodes_(gcodes),
   g90_(true),
   g21_(true),
   parse_status_(PARSE_OK),
@@ -232,6 +234,24 @@ void GCodeParser::ParseCommand(char *content) {
   }
 }
 
+void GCodeParser::G99OptProcess() {
+  for (std::size_t i = 0; i < gcodes_.size(); i++) {
+    GCommand &cur_cmd = gcodes_[i];
+    if (!IsEqual(scale_, 1)) {
+      cur_cmd.Scale(scale_);
+    }
+    if (!IsZero(rotate_angle_)) {
+      cur_cmd.Rotate(rotate_angle_);
+    }
+    if (x_mirror_) {
+      cur_cmd.XMirror();
+    }
+    if (y_mirror_) {
+      cur_cmd.YMirror();
+    }
+  }
+}
+
 int GCodeParser::ParseGCodeFromFile(const std::string &file_name) {
   std::ifstream input_file(file_name.c_str());
   std::string line;
@@ -250,5 +270,8 @@ int GCodeParser::ParseGCodeFromFile(const std::string &file_name) {
     current_cmd_.x0_ = current_cmd_.x_;
     current_cmd_.y0_ = current_cmd_.y_;
   }
-  return PARSE_OK;
+  if (parse_status_ == PARSE_OK) {
+    G99OptProcess();
+  }
+  return parse_status_;
 }

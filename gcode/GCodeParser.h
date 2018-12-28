@@ -15,13 +15,13 @@ enum PARSE_STATUS {
 
 class GCodeParser {
  public:
-  GCodeParser();
+  explicit GCodeParser(std::vector<GCommand> &gcodes);
   int ParseGCodeFromFile(const std::string &file_name);
 
   friend class PathManager;
 
  private:
-  std::vector<GCommand> gcodes_;
+  std::vector<GCommand> &gcodes_;
   GCommand current_cmd_;
   bool g90_;
   bool g21_;
@@ -45,6 +45,7 @@ class GCodeParser {
   void ParseLine(const char *content);
   void ParseArc(const char *content);
   void ProcessArgs(char arg_name, double arg_value);
+  void G99OptProcess();
 };
 
 #endif // GCODE_GCODEPARSER_H_

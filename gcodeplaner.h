@@ -2,11 +2,11 @@
 #define GCODEPLANER_H
 
 #include <QMainWindow>
+#include <QtGui/QGraphicsScene>
 
 #include "gcode_math/math_object.h"
 
-#include "gcode/GCodeParser.h"
-#include "pathmanager.h"
+#include "workpiece.h"
 
 namespace Ui {
 class GCodePlaner;
@@ -38,9 +38,9 @@ private slots:
 
 private:
     Ui::GCodePlaner *ui;
+    QGraphicsScene scene_;
+    Workpiece workpiece_;
 
-    GCodeParser gcode_parser_;
-    PathManager path_manager_;
 };
 
 #endif // GCODEPLANER_H

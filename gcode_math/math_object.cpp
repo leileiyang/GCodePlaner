@@ -71,3 +71,11 @@ double RoundAngle(double angle) {
   }
   return angle;
 }
+
+void RotatePoint(double &x, double &y, double angle) {
+  double cos_theta = cos(angle * PI / 180);
+  double sin_theta = sin(angle * PI / 180);
+  double temp = x;
+  x = x * cos_theta - y * sin_theta;
+  y = y * cos_theta + temp * sin_theta;
+}

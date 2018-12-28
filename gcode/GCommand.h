@@ -16,6 +16,12 @@ class GCommand {
   GCommand(const GCommand &other);
   GCommand& operator=(const GCommand &other);
 
+  void Scale(double scale);
+  // angle unit: degree
+  void Rotate(double angle);
+  void XMirror();
+  void YMirror();
+
   unsigned int line_no_;
   unsigned int name_;
 
@@ -33,6 +39,9 @@ class GCommand {
   double end_angle_;
 
   std::string ext_args_;
+ private:
+  void MirrorName();
+
 };
 
 #endif

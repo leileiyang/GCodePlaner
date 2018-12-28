@@ -7,6 +7,7 @@
 #include <QtGui/QFileDialog>
 
 #include "gcode_math/ecnc2math.h"
+#include "gcode/GCodeParser.h"
 
 GCodePlaner::GCodePlaner(QWidget *parent) :
     QMainWindow(parent),
@@ -131,7 +132,9 @@ void GCodePlaner::on_actionOpen_triggered()
   QString file_name = QFileDialog::getOpenFileName(this, tr("Open File"),
       "/home");
 
-  gcode_parser_.ParseGCodeFromFile(file_name.toStdString());
-  path_manager_.DrawGCode(gcode_parser_);
-  ui->shape_monitor_->setScene(path_manager_.Scene());
+  GCodeParser gcode_parser(workpiece_.WorkpieceGCodes());
+  gcode_parser.ParseGCodeFromFile(file_name.toStdString());
+  workpiece_.Draw();
+  scene_.addItem(workpiece_.GetWorkpiece());
+  ui->shape_monitor_->setScene(&scene_);
 }

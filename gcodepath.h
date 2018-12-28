@@ -9,6 +9,7 @@
 class GCodePath: public QGraphicsItem  {
 public:
     GCodePath(QColor color, double width, QGraphicsItem *parent = 0);
+    virtual ~GCodePath() {}
 
     bool IsEmpty() const;
     void SetColor(const QColor &color) {

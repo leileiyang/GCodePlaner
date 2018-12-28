@@ -33,6 +33,8 @@ double SpanCenterAngle(const Point_2D &start_pos, const Point_2D &end_pos,
 
 /// round angle to [0, 360]
 double RoundAngle(double angle);
+/// angle unit: degree
+void RotatePoint(double &x, double &y, double angle);
 
 #endif // MATH_OBJECT_H
 
