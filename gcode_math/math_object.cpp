@@ -10,6 +10,7 @@ double CenterAngle(const Point_2D &point, const Point_2D &center) {
 }
 
 double CenterAngle(const Point_2D &vec_oa) {
+  /*
   Point_2D vec_ox = {3, 0};
   double sign = 1;
   double cos_angle = (vec_oa.x * vec_ox.x + vec_oa.y * vec_ox.y) /
@@ -28,6 +29,13 @@ double CenterAngle(const Point_2D &vec_oa) {
     sign = 1;
   }
   double angle = acos(cos_angle) * 180 / PI * sign;
+  angle = IsGreaterEqual(angle, 0) ? angle : 360 + angle;
+  */
+
+  if (IsEqual(vec_oa.x, 0) && IsEqual(vec_oa.y, 0)) {
+    return 0;
+  }
+  double angle = -(float)(atan2((float)vec_oa.y, (float)vec_oa.x) * 180 / PI);
   angle = IsGreaterEqual(angle, 0) ? angle : 360 + angle;
   return angle;
 }
