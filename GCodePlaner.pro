@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     gcode_math/ecnc2math.c \
     gcode_math/math_object.cpp \
     shapemonitor.cpp \
-    pathmanager.cpp
+    pathmanager.cpp \
+    workpiece.cpp
 
 HEADERS  += gcodeplaner.h \
     gcodepath.h \
@@ -29,7 +30,8 @@ HEADERS  += gcodeplaner.h \
     gcode_math/ecnc2math.h \
     gcode_math/math_object.h \
     shapemonitor.h \
-    pathmanager.h
+    pathmanager.h \
+    workpiece.h
 
 FORMS    += gcodeplaner.ui \
     shapemonitor.ui
