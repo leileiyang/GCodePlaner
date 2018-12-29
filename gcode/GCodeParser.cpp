@@ -167,6 +167,7 @@ void GCodeParser::GetCmdName(int cmd_type, int cmd_index) {
     case 40: current_cmd_.name_ = G40; break;
     case 41: current_cmd_.name_ = G41; break;
     case 42: current_cmd_.name_ = G42; break;
+    case 92: current_cmd_.name_ = G92; break;
     case 99: current_cmd_.name_ = G99; break;
     }
   } else if (cmd_type == 'm' || cmd_type == 'M') {
