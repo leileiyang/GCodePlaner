@@ -9,9 +9,11 @@
 class WorkpieceData;
 class PathManager;
 
-enum PARSE_STATUS {
-  PARSE_OK,
-  PARSE_SYNTAX_ERROR,
+enum PARSE_CMD_RESULT {
+  PARSE_CMD_OK,
+  PARSE_CMD_COMMENT,
+  PARSE_CMD_SYNTAX_ERROR,
+  PARSE_CMD_ERROR
 };
 
 class GCodeParser {
@@ -26,7 +28,6 @@ class GCodeParser {
   GCommand current_cmd_;
   bool g90_;
   bool g21_;
-  int parse_status_;
 
   double scale_;
   double rotate_angle_;
@@ -34,7 +35,7 @@ class GCodeParser {
   int y_mirror_;
 
   bool IsWithLineNo(const std::string line, char *content);
-  void ParseCommand(char *content);
+  int ParseCommand(char *content);
 
   int GetCmdType(char *content, int &cmd_index);
   void GetCmdName(int cmd_type, int cmd_index);

@@ -15,7 +15,6 @@ GCodeParser::GCodeParser(WorkpieceData &data):
   gcodes_(data.gcodes_),
   g90_(true),
   g21_(true),
-  parse_status_(PARSE_OK),
   scale_(1.0),
   rotate_angle_(0.),
   x_mirror_(0),
@@ -34,18 +33,22 @@ bool GCodeParser::IsWithLineNo(const std::string line, char *content) {
 int GCodeParser::GetCmdType(char *content, int &cmd_index) {
   char cmd_type;
   char args[256] = {0};
-  int match_num = sscanf(content, " %[GgMm]%d %255[^\001]", &cmd_type, &cmd_index,
-                         args);
+  int match_num = sscanf(content, " %[GgMm]%d %255[^\001]", &cmd_type,
+                         &cmd_index, args);
 
   if (match_num >= 1) {
     memset(content, 0, 256);
     memcpy(content, args, 256);
     return cmd_type;
   } else {
-    return 0;
+    match_num = sscanf(content, " %[%%(PF] %255[^\001]", &cmd_type, args);
+    if (match_num >= 1) {
+      return cmd_type;
+    } else {
+      return 0;
+    }
   }
 }
-
 
 void GCodeParser::ProcessArgs(char arg_name, double arg_value) {
   switch (arg_name) {
@@ -212,7 +215,7 @@ void GCodeParser::ParseMCommand(int cmd_index, const char */*content*/) {
   GetCmdName('M', cmd_index);
 }
 
-void GCodeParser::ParseCommand(char *content) {
+int GCodeParser::ParseCommand(char *content) {
   int cmd_index = 0;
   char cmd_type = GetCmdType(content, cmd_index);
   switch (cmd_type) {
@@ -220,7 +223,7 @@ void GCodeParser::ParseCommand(char *content) {
     if (current_cmd_.name_ >= G00 && current_cmd_.name_ <= G03) {
       ParseGCommand(-1, content);
     } else {
-      parse_status_ = PARSE_SYNTAX_ERROR;
+      return PARSE_CMD_SYNTAX_ERROR;
     }
     break;
   case 'g':
@@ -231,9 +234,15 @@ void GCodeParser::ParseCommand(char *content) {
   case 'M':
     ParseMCommand(cmd_index, content);
     break;
+  case 'F': ParseOneArgument(content);
+  case '(':
+  case 'P':
+  case '%': return PARSE_CMD_COMMENT;
+    break;
   default:
     break;
   }
+  return PARSE_CMD_OK;
 }
 
 void GCodeParser::G99OptProcess() {
@@ -258,22 +267,25 @@ int GCodeParser::ParseGCodeFromFile(const std::string &file_name) {
   std::ifstream input_file(file_name.c_str());
   std::string line;
   char content[256] = {0};
+  int ret = PARSE_CMD_OK;
   while (std::getline(input_file, line)) {
     memset(content, 0, 256);
     if (IsWithLineNo(line, content)) {  // with line number "N"
-      ParseCommand(content);
+      ret = ParseCommand(content);
     } else { // without line nubmer
       memset(content, 0, 256);
       strcpy(content, line.c_str());
-      ParseCommand(content);
+      ret = ParseCommand(content);
     }
-    gcodes_.push_back(current_cmd_);
-    current_cmd_.line_no_++;
-    current_cmd_.x0_ = current_cmd_.x_;
-    current_cmd_.y0_ = current_cmd_.y_;
+    if (ret == PARSE_CMD_OK) {
+      gcodes_.push_back(current_cmd_);
+      current_cmd_.line_no_++;
+      current_cmd_.x0_ = current_cmd_.x_;
+      current_cmd_.y0_ = current_cmd_.y_;
+    }
   }
-  if (parse_status_ == PARSE_OK) {
+  if (ret == PARSE_CMD_OK) {
     G99OptProcess();
   }
-  return parse_status_;
+  return ret;
 }
