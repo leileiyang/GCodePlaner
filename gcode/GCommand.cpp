@@ -1,7 +1,5 @@
 #include "GCommand.h"
 
-#include <math.h>
-
 #include "neomath/ecnc2math.h"
 #include "neomath/neomath.h"
 

@@ -1,12 +1,9 @@
 #include "gcodeplaner.h"
 
-#include <math.h>
-
 #include "ui_gcodeplaner.h"
 
 #include <QtGui/QFileDialog>
 
-#include "neomath/ecnc2math.h"
 #include "gcode/GCodeParser.h"
 
 GCodePlaner::GCodePlaner(QWidget *parent) :

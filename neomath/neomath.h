@@ -1,6 +1,8 @@
 #ifndef NEO_MATH_H
 #define NEO_MATH_H
 
+#include <math.h>
+
 struct Point_2D {
   double x;
   double y;

@@ -1,17 +1,12 @@
 #ifndef WORKPIECE_H
 #define WORKPIECE_H
 
-#include <vector>
-
 #include <QtCore/QRectF>
 #include <QtGui/QGraphicsScene>
 #include <QtGui/QGraphicsItemGroup>
 
 #include "gcodepath.h"
-#include "gcode/GCommand.h"
 #include "workpiecedata.h"
-
-class WorkpieceData;
 
 class Workpiece : public QObject
 {

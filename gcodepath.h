@@ -1,8 +1,6 @@
 #ifndef GCODEPATH_H
 #define GCODEPATH_H
 
-#include <iostream>
-
 #include <QtGui/QGraphicsItem>
 #include <QtGui/QPen>
 
@@ -13,9 +11,7 @@ class Workpiece;
 class GCodePath: public QGraphicsItem  {
 public:
     GCodePath(QColor color, double width, QGraphicsItem *parent = 0);
-    virtual ~GCodePath() {
-      std::cout << "I'm in GCodePath destructor" << std::endl;
-    }
+    virtual ~GCodePath() {}
 
     friend class Workpiece;
 

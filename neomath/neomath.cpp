@@ -1,7 +1,5 @@
 #include "neomath.h"
 
-#include <math.h>
-
 #include "ecnc2math.h"
 
 double CenterAngle(const Point_2D &point, const Point_2D &center) {

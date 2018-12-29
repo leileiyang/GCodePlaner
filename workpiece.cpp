@@ -1,8 +1,8 @@
 #include "workpiece.h"
 
-#include "workpiecedata.h"
+#include <vector>
 
-#include <iostream>
+#include "gcode/GCommand.h"
 
 Workpiece::Workpiece(int id, WorkpieceData &data, QObject *parent):
     QObject(parent), id_(id), data_(data), ownership_(true) {
@@ -18,7 +18,6 @@ Workpiece::~Workpiece() {
   if (ownership_) {
     delete group_;
   }
-  std::cout << "I'm in Workpiece destructor" << std::endl;
 }
 
 void Workpiece::AddToScene(QGraphicsScene *scene) {
