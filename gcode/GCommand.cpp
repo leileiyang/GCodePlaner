@@ -2,8 +2,8 @@
 
 #include <math.h>
 
-#include "gcode_math/ecnc2math.h"
-#include "gcode_math/math_object.h"
+#include "neomath/ecnc2math.h"
+#include "neomath/neomath.h"
 
 GCommand::GCommand(): line_no_(0), name_(0), x0_(0.), y0_(0.), x_(0.), y_(0.),
     i_(0.), j_(0.), f_(0.), r_(0.),

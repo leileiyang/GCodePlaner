@@ -1,6 +1,12 @@
 #include "workpiece.h"
 
-Workpiece::Workpiece(QObject *parent) : QObject(parent), id_(0) {
+#include "workpiecedata.h"
+
+#include <iostream>
+
+Workpiece::Workpiece(int id, WorkpieceData &data, QObject *parent):
+    QObject(parent), id_(id), data_(data), ownership_(true) {
+
   move_path_ = new GCodePath(Qt::yellow, 2);
   cutting_path_ = new GCodePath(Qt::magenta, 2);
   group_ = new QGraphicsItemGroup;
@@ -8,17 +14,27 @@ Workpiece::Workpiece(QObject *parent) : QObject(parent), id_(0) {
   group_->addToGroup(cutting_path_);
 }
 
-Workpiece::Workpiece(int id, QObject *parent): QObject(parent), id_(id) {
-  move_path_ = new GCodePath(Qt::yellow, 2);
-  cutting_path_ = new GCodePath(Qt::magenta, 2);
-  group_ = new QGraphicsItemGroup;
-  group_->addToGroup(move_path_);
-  group_->addToGroup(cutting_path_);
+Workpiece::~Workpiece() {
+  if (ownership_) {
+    delete group_;
+  }
+  std::cout << "I'm in Workpiece destructor" << std::endl;
+}
+
+void Workpiece::AddToScene(QGraphicsScene *scene) {
+  scene->addItem(group_);
+  ownership_ = false;
+}
+
+void Workpiece::RemoveFromScene(QGraphicsScene *scene) {
+  scene->removeItem(group_);
+  ownership_ = true;
 }
 
 void Workpiece::Draw() {
-  for (std::size_t i = 0; i < gcodes_.size(); i++) {
-    const GCommand &cur_cmd = gcodes_[i];
+  std::vector<GCommand> &gcodes = data_.gcodes_;
+  for (std::size_t i = 0; i < gcodes.size(); i++) {
+    const GCommand &cur_cmd = gcodes[i];
     switch (cur_cmd.name_) {
       case G00:
         move_path_->MoveTo(cur_cmd.x0_, cur_cmd.y0_);

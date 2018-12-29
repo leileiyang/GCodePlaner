@@ -6,12 +6,13 @@
 
 #include <fstream>
 
-#include "gcode_math/ecnc2math.h"
+#include "neomath/ecnc2math.h"
+#include "workpiecedata.h"
 
 const static double RATIO_G20_TO_G21 = 25.4;
 
-GCodeParser::GCodeParser(std::vector<GCommand> &gcodes):
-  gcodes_(gcodes),
+GCodeParser::GCodeParser(WorkpieceData &data):
+  gcodes_(data.gcodes_),
   g90_(true),
   g21_(true),
   parse_status_(PARSE_OK),

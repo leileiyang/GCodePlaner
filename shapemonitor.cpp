@@ -24,7 +24,10 @@ ShapeMonitor::~ShapeMonitor()
 void ShapeMonitor::setScene(QGraphicsScene *scene) {
   if (scene) {
     ui->shape_view_->setScene(scene);
-    ui->shape_view_->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
-    ui->shape_view_->setSceneRect(scene->sceneRect());
   }
+}
+
+void ShapeMonitor::setSceneRect(const QRectF &rect) {
+  ui->shape_view_->fitInView(rect, Qt::KeepAspectRatio);
+  ui->shape_view_->setSceneRect(rect);
 }

@@ -4,8 +4,8 @@
 
 #include <QtGui/QPainter>
 
-#include "gcode_math/ecnc2math.h"
-#include "gcode_math/math_object.h"
+#include "neomath/ecnc2math.h"
+#include "neomath/neomath.h"
 
 GCodePath::GCodePath(QColor color, double width, QGraphicsItem *parent):
     QGraphicsItem(parent),

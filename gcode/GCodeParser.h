@@ -6,6 +6,7 @@
 
 #include "GCommand.h"
 
+class WorkpieceData;
 class PathManager;
 
 enum PARSE_STATUS {
@@ -15,7 +16,7 @@ enum PARSE_STATUS {
 
 class GCodeParser {
  public:
-  explicit GCodeParser(std::vector<GCommand> &gcodes);
+  explicit GCodeParser(WorkpieceData &data);
   int ParseGCodeFromFile(const std::string &file_name);
 
   friend class PathManager;

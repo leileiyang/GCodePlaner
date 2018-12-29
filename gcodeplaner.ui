@@ -35,7 +35,16 @@
     </property>
     <addaction name="actionOpen"/>
    </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actionXMirror"/>
+    <addaction name="actionYMirror"/>
+    <addaction name="actionRotate"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -50,8 +59,20 @@
    <property name="text">
     <string>Open</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+O</string>
+  </action>
+  <action name="actionXMirror">
+   <property name="text">
+    <string>XMirror</string>
+   </property>
+  </action>
+  <action name="actionYMirror">
+   <property name="text">
+    <string>YMirror</string>
+   </property>
+  </action>
+  <action name="actionRotate">
+   <property name="text">
+    <string>Rotate</string>
    </property>
   </action>
  </widget>

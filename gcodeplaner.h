@@ -4,9 +4,10 @@
 #include <QMainWindow>
 #include <QtGui/QGraphicsScene>
 
-#include "gcode_math/math_object.h"
+#include "neomath/neomath.h"
 
 #include "workpiece.h"
+#include "workpiecedata.h"
 
 namespace Ui {
 class GCodePlaner;
@@ -20,27 +21,20 @@ public:
     explicit GCodePlaner(QWidget *parent = 0);
     ~GCodePlaner();
 
-  Point_2D IntersectPoint(const GCodeArc &arc, const GCodeCircle &circle);
-  Point_2D IntersectPoint(const GCodeLine &line, const GCodeCircle &circle);
-  Point_2D GetDVector(const GCodeLine &line);
-  Point_2D GetDVector(const Point_2D &start_point, const Point_2D &end_point);
-  Point_2D GetDotPerpVector(const Point_2D &vec);
-
-  double VectorDot(const Point_2D &vec_a, const Point_2D &vec_b);
-  double VectorLengthSquare(const Point_2D &vec);
-  double GetTArgument(const Point_2D &d_vector, const Point_2D &delta, double lower_delta);
-  int ValueInZeroToOne(double value);
-  bool PointOnArc(const Point_2D &point, const GCodeArc &arc);
-
-
 private slots:
   void on_actionOpen_triggered();
+
+  void on_actionXMirror_triggered();
+
+  void on_actionYMirror_triggered();
+
+  void on_actionRotate_triggered();
 
 private:
     Ui::GCodePlaner *ui;
     QGraphicsScene scene_;
-    Workpiece workpiece_;
 
+    WorkpieceData workpiece_data_;
 };
 
 #endif // GCODEPLANER_H

@@ -1,15 +1,23 @@
 #ifndef GCODEPATH_H
 #define GCODEPATH_H
 
+#include <iostream>
+
 #include <QtGui/QGraphicsItem>
 #include <QtGui/QPen>
 
-#include "gcode_math/math_object.h"
+#include "neomath/neomath.h"
+
+class Workpiece;
 
 class GCodePath: public QGraphicsItem  {
 public:
     GCodePath(QColor color, double width, QGraphicsItem *parent = 0);
-    virtual ~GCodePath() {}
+    virtual ~GCodePath() {
+      std::cout << "I'm in GCodePath destructor" << std::endl;
+    }
+
+    friend class Workpiece;
 
     bool IsEmpty() const;
     void SetColor(const QColor &color) {

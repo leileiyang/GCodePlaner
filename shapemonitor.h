@@ -17,8 +17,10 @@ public:
   explicit ShapeMonitor(QWidget *parent = 0);
   ~ShapeMonitor();
 
+
+  void setSceneRect(const QRectF &rect);
 public slots:
-    void setScene(QGraphicsScene *scene);
+  void setScene(QGraphicsScene *scene);
 
 private:
     Ui::ShapeMonitor *ui;

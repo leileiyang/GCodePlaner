@@ -4,32 +4,31 @@
 #include <vector>
 
 #include <QtCore/QRectF>
+#include <QtGui/QGraphicsScene>
 #include <QtGui/QGraphicsItemGroup>
 
 #include "gcodepath.h"
 #include "gcode/GCommand.h"
+#include "workpiecedata.h"
+
+class WorkpieceData;
 
 class Workpiece : public QObject
 {
   Q_OBJECT
 public:
-  explicit Workpiece(QObject *parent = 0);
-  Workpiece(int id, QObject *parent = 0);
+  Workpiece(int id, WorkpieceData &data, QObject *parent = 0);
+  ~Workpiece();
 
   int WorkpieceId () const {
     return id_;
   }
 
-  std::vector<GCommand>& WorkpieceGCodes () {
-    return gcodes_;
-  }
-
-  QGraphicsItemGroup *GetWorkpiece() {
-    return group_;
-  }
+  void AddToScene(QGraphicsScene *scene);
+  void RemoveFromScene(QGraphicsScene *scene);
 
   QRectF WorkpieceSize() const {
-    return group_->boundingRect();
+    return cutting_path_->boundingRect().united(move_path_->boundingRect());
   }
   void Draw();
 
@@ -39,11 +38,12 @@ public slots:
 
 private:
   int id_;
+  WorkpieceData &data_;
+  bool ownership_;
+
   GCodePath *move_path_;
   GCodePath *cutting_path_;
   QGraphicsItemGroup *group_;
-
-  std::vector<GCommand> gcodes_;
 
 };
 
