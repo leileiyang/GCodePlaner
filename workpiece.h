@@ -7,6 +7,7 @@
 
 #include "gcodepath.h"
 #include "workpiecedata.h"
+#include "torch.h"
 
 class Workpiece : public QObject
 {
@@ -36,6 +37,7 @@ private:
   WorkpieceData &data_;
   bool ownership_;
 
+  Torch *torch_;
   GCodePath *move_path_;
   GCodePath *cutting_path_;
   QGraphicsItemGroup *group_;

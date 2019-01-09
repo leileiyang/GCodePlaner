@@ -7,11 +7,13 @@
 Workpiece::Workpiece(int id, WorkpieceData &data, QObject *parent):
     QObject(parent), id_(id), data_(data), ownership_(true) {
 
+  torch_ = new Torch(0, 0);
   move_path_ = new GCodePath(Qt::yellow, 2);
   cutting_path_ = new GCodePath(Qt::magenta, 2);
   group_ = new QGraphicsItemGroup;
   group_->addToGroup(move_path_);
   group_->addToGroup(cutting_path_);
+  group_->addToGroup(torch_);
 }
 
 Workpiece::~Workpiece() {

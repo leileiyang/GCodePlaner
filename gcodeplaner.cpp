@@ -22,6 +22,8 @@ void GCodePlaner::on_actionOpen_triggered()
   QString file_name = QFileDialog::getOpenFileName(this, tr("Open File"),
       "/home/leiyang/smbdemo");
 
+  workpiece_data_.Clear();
+  scene_.clear();
   GCodeParser gcode_parser(workpiece_data_);
   gcode_parser.ParseGCodeFromFile(file_name.toStdString());
 

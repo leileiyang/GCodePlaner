@@ -19,6 +19,9 @@ public:
   void Rotate(double angle);
   void XMirror();
   void YMirror();
+  void Clear() {
+    gcodes_.clear();
+  }
 
 private:
   std::vector<GCommand> gcodes_;

@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     workpiece.cpp \
     workpiecedata.cpp \
     neomath/neomath.cpp \
-    neomath/ecnc2math.c
+    neomath/ecnc2math.c \
+    torch.cpp
 
 HEADERS  += gcodeplaner.h \
     gcodepath.h \
@@ -32,7 +33,8 @@ HEADERS  += gcodeplaner.h \
     workpiecedata.h \
     neomath/ecnc2math.h \
     neomath/neomath.h \
-    gcode/GCodeDefine.h
+    gcode/GCodeDefine.h \
+    torch.h
 
 FORMS    += gcodeplaner.ui \
     shapemonitor.ui
