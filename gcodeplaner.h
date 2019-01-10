@@ -30,6 +30,8 @@ private slots:
 
   void on_actionRotate_triggered();
 
+  void on_actionRestore_triggered();
+
 private:
     Ui::GCodePlaner *ui;
     QGraphicsScene scene_;

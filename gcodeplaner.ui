@@ -42,6 +42,7 @@
     <addaction name="actionXMirror"/>
     <addaction name="actionYMirror"/>
     <addaction name="actionRotate"/>
+    <addaction name="actionRestore"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -76,6 +77,11 @@
    </property>
    <property name="shortcut">
     <string>R</string>
+   </property>
+  </action>
+  <action name="actionRestore">
+   <property name="text">
+    <string>Restore</string>
    </property>
   </action>
  </widget>

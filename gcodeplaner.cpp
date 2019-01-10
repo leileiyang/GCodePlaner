@@ -63,3 +63,8 @@ void GCodePlaner::on_actionRotate_triggered()
   workpiece.AddToScene(&scene_);
   ui->shape_monitor_->setSceneRect(workpiece.WorkpieceSize());
 }
+
+void GCodePlaner::on_actionRestore_triggered()
+{
+  ui->shape_monitor_->onRestore();
+}

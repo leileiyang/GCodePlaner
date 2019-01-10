@@ -1,6 +1,9 @@
 #include "shapemonitor.h"
 #include "ui_shapemonitor.h"
 
+#define ZOOM_IN_STEP 1.1
+#define ZOOM_OUT_STEP 0.9
+
 ShapeMonitor::ShapeMonitor(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ShapeMonitor)
@@ -30,4 +33,29 @@ void ShapeMonitor::setScene(QGraphicsScene *scene) {
 void ShapeMonitor::setSceneRect(const QRectF &rect) {
   ui->shape_view_->fitInView(rect, Qt::KeepAspectRatio);
   ui->shape_view_->setSceneRect(rect);
+  matrix_ = ui->shape_view_->matrix();
+}
+
+void ShapeMonitor::StepZoomIn() {
+  ui->shape_view_->scale(ZOOM_IN_STEP, ZOOM_IN_STEP);
+}
+
+void ShapeMonitor::StepZoomOut() {
+  ui->shape_view_->scale(ZOOM_OUT_STEP, ZOOM_OUT_STEP);
+}
+
+void ShapeMonitor::onRestore() {
+  ui->shape_view_->setMatrix(matrix_);
+}
+
+void ShapeMonitor::wheelEvent(QWheelEvent *e) {
+  if (e->modifiers() & Qt::ControlModifier) {
+    if (e->delta() > 0) {
+      StepZoomIn();
+    } else {
+      StepZoomOut();
+    }
+  } else {
+    QWidget::wheelEvent(e);
+  }
 }

@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QtGui/QGraphicsScene>
 #include <QtGui/QGraphicsItem>
+#include <QtGui/QWheelEvent>
+#include <QtGui/QMatrix>
 
 namespace Ui {
 class ShapeMonitor;
@@ -19,11 +21,18 @@ public:
 
 
   void setSceneRect(const QRectF &rect);
+  void StepZoomIn();
+  void StepZoomOut();
+  void onRestore();
 public slots:
   void setScene(QGraphicsScene *scene);
 
+protected:
+  void wheelEvent(QWheelEvent *);
+
 private:
     Ui::ShapeMonitor *ui;
+    QMatrix matrix_;
 
 };
 
