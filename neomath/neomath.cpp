@@ -180,3 +180,24 @@ Point_2D IntersectPoint(const GCodeLine &line, const GCodeCircle &circle) {
   }
   return point;
 }
+
+Point_2D VerticalIntersection(const GCodeLine &line, const Point_2D &p) {
+  return VerticalIntersection(line.start_point, line.end_point, p);
+}
+
+Point_2D VerticalIntersection(const Point_2D &p0, const Point_2D &p1,
+                              const Point_2D &p2) {
+
+  if (IsZero(p1.x - p0.x)) {
+    Point_2D res = {p1.x, p2.y};
+    return res;
+  } else if (IsZero(p1.y - p0.y)) {
+    Point_2D res = {p2.x, p1.y};
+    return res;
+  }
+  double k = (p1.y - p0.y) / (p1.x - p0.x);
+  double x = (p2.x + k * p2.y + k * k * p1.x - k * p1.y) / (k * k + 1);
+  double y = -1 / k * (x - p2.x) + p2.y;
+  Point_2D res = {x, y};
+  return res;
+}
