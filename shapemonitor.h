@@ -2,8 +2,8 @@
 #define SHAPEMONITOR_H
 
 #include <QWidget>
-#include <QtGui/QGraphicsScene>
-#include <QtGui/QGraphicsItem>
+#include <QGraphicsScene>
+#include <QGraphicsItem>
 #include <QtGui/QWheelEvent>
 #include <QtGui/QMatrix>
 

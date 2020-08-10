@@ -1,7 +1,7 @@
 #ifndef GCODEPATH_H
 #define GCODEPATH_H
 
-#include <QtGui/QGraphicsItem>
+#include <QGraphicsItem>
 #include <QtGui/QPen>
 
 #include "neomath/neomath.h"

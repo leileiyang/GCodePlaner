@@ -2,7 +2,7 @@
 
 #include "ui_gcodeplaner.h"
 
-#include <QtGui/QFileDialog>
+#include <QFileDialog>
 
 #include "gcode/GCodeParser.h"
 

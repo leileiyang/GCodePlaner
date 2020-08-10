@@ -2,8 +2,8 @@
 #define WORKPIECE_H
 
 #include <QtCore/QRectF>
-#include <QtGui/QGraphicsScene>
-#include <QtGui/QGraphicsItemGroup>
+#include <QGraphicsScene>
+#include <QGraphicsItemGroup>
 
 #include "gcodepath.h"
 #include "workpiecedata.h"

@@ -2,7 +2,7 @@
 #define GCODEPLANER_H
 
 #include <QMainWindow>
-#include <QtGui/QGraphicsScene>
+#include <QGraphicsScene>
 
 #include "neomath/neomath.h"
 
