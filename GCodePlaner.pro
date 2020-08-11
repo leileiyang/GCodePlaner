@@ -48,12 +48,11 @@ SOURCES += main.cpp\
     librecad/lib/engine/rs_graphic.cpp \
     librecad/lib/engine/rs_variabledict.cpp \
     librecad/lib/actions/rs_actioninterface.cpp \
-    librecad/lib/engine/rs_undoable.cpp \
-    librecad/lib/engine/rs_undocycle.cpp \
     librecad/actions/rs_actionzoomin.cpp \
     librecad/lib/gui/rs_eventhandler.cpp \
     librecad/lib/actions/rs_snapper.cpp \
-    librecad/lib/engine/rs_entitycontainer.cpp
+    librecad/lib/engine/rs_entitycontainer.cpp \
+    librecad/actions/rs_actionzoomscroll.cpp
 
 HEADERS  += gcodeplaner.h \
     gcodepath.h \
@@ -85,14 +84,13 @@ HEADERS  += gcodeplaner.h \
     librecad/lib/engine/rs_variable.h \
     librecad/lib/engine/rs_variabledict.h \
     librecad/lib/actions/rs_actioninterface.h \
-    librecad/lib/engine/rs_undoable.h \
-    librecad/lib/engine/rs_undocycle.h \
     librecad/actions/rs_actionzoomin.h \
     librecad/lib/gui/rs_eventhandler.h \
     librecad/lib/gui/rs_commandevent.h \
     librecad/lib/actions/rs_snapper.h \
     librecad/lib/engine/rs_entitycontainer.h \
-    librecad/lib/gui/rs_coordinateevent.h
+    librecad/lib/gui/rs_coordinateevent.h \
+    librecad/actions/rs_actionzoomscroll.h
 
 FORMS    += gcodeplaner.ui \
     shapemonitor.ui

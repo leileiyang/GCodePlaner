@@ -11,6 +11,7 @@
 #include "rs_painterqt.h"
 #include "rs_debug.h"
 #include "rs_actionzoomin.h"
+#include "rs_actionzoomscroll.h"
 
 RS_GraphicView::RS_GraphicView(QWidget *parent) : QWidget(parent)
     ,device_("Mouse")
@@ -21,11 +22,13 @@ RS_GraphicView::RS_GraphicView(QWidget *parent) : QWidget(parent)
     ,grid_(new RS_Grid(this))
     ,savedViews_(16) {
 
-    RS_SETTINGS->beginGroup("Colors");
-    setBackground(QColor(RS_SETTINGS->readEntry("/background", Colors::background)));
-    setGridColor(QColor(RS_SETTINGS->readEntry("/grid", Colors::grid)));
-    setMetaGridColor(QColor(RS_SETTINGS->readEntry("/meta_grid", Colors::meta_grid)));
-    RS_SETTINGS->endGroup();
+  RS_SETTINGS->beginGroup("Colors");
+  setBackground(QColor(RS_SETTINGS->readEntry("/background", Colors::background)));
+  setGridColor(QColor(RS_SETTINGS->readEntry("/grid", Colors::grid)));
+  setMetaGridColor(QColor(RS_SETTINGS->readEntry("/meta_grid", Colors::meta_grid)));
+  RS_SETTINGS->endGroup();
+
+  addScrollbars();
 }
 
 void RS_GraphicView::setBackground(const RS_Color& bg) {
@@ -35,6 +38,13 @@ void RS_GraphicView::setBackground(const RS_Color& bg) {
   } else {
     foreground_ = RS_Color(255, 255, 255);
   }
+}
+
+void RS_GraphicView::setBorders(int left, int top, int right, int bottom) {
+  borderLeft_ = left;
+  borderTop_ = top;
+  borderRight_ = right;
+  borderBottom_ = bottom;
 }
 
 int RS_GraphicView::getWidth() const {
@@ -74,6 +84,34 @@ void RS_GraphicView::adjustOffsetControls() {
 
 void RS_GraphicView::adjustZoomControls() {}
 
+/**
+ * Slot for horizontal scroll events.
+ */
+void RS_GraphicView::slotHScrolled(int value) {
+  // Scrollbar behaviour tends to change with every Qt version..
+  // so let's keep old code in here for now
+  if (hScrollBar_->maximum() == hScrollBar_->minimum()) {
+    centerOffsetX();
+  } else {
+    setOffsetX(-value);
+  }
+  redraw();
+}
+
+/**
+ * Slot for vertical scroll events.
+ */
+void RS_GraphicView::slotVScrolled(int value) {
+  // Scrollbar behaviour tends to change with every Qt version..
+  // so let's keep old code in here for now
+  if (vScrollBar_->maximum() == vScrollBar_->minimum()) {
+    centerOffsetY();
+  } else {
+    setOffsetY(value);
+  }
+  redraw();
+}
+
 void RS_GraphicView::setFactor(double f) {
   setFactorX(f);
   setFactorY(f);
@@ -103,12 +141,37 @@ void RS_GraphicView::setOffsetY(int oy) {
   offsetY_ = oy;
 }
 
+void RS_GraphicView::setOffset(int ox, int oy) {
+  setOffsetX(ox);
+  setOffsetY(oy);
+  adjustOffsetControls();
+}
+
 int RS_GraphicView::getOffsetX() const {
   return offsetX_;
 }
 
 int RS_GraphicView::getOffsetY() const {
   return offsetY_;
+}
+
+
+void RS_GraphicView::centerOffsetX() {
+  if (container_ && !zoomFrozen_) {
+    //offsetX_ = (int)(((getWidth()-borderLeft_-borderRight_)
+    //    - (container_->getSize().x*factor.x))/2.0
+    //    - (container_->getMin().x*factor.x)) + borderLeft_;
+
+  }
+}
+
+void RS_GraphicView::centerOffsetY() {
+  if (container_ && !zoomFrozen_) {
+    //offsetY_ = (int)((getHeight()-borderTop_-borderBottom_
+    //    - (container_->getSize().y*factor.y))/2.0
+    //    - (container_->getMin().y*factor.y)) + borderBottom_;
+
+  }
 }
 
 
@@ -210,6 +273,39 @@ void RS_GraphicView::getPixmapForView(std::unique_ptr<QPixmap>& pm) {
   pm.reset(new QPixmap(getWidth(), getHeight()));
 }
 
+void RS_GraphicView::addScrollbars() {
+  scrollbars_ = true;
+
+  hScrollBar_ = new QG_ScrollBar(Qt::Horizontal, this);
+  vScrollBar_ = new QG_ScrollBar(Qt::Vertical, this);
+  layout_ = new QGridLayout(this);
+
+  setOffset(50, 50);
+
+  layout_->setMargin(0);
+  layout_->setSpacing(0);
+  layout_->setColumnStretch(0, 1);
+  layout_->setColumnStretch(1, 0);
+  layout_->setColumnStretch(2, 0);
+  layout_->setRowStretch(0, 1);
+  layout_->setRowStretch(1, 0);
+
+  hScrollBar_->setSingleStep(50);
+  hScrollBar_->setCursor(Qt::ArrowCursor);
+  layout_->addWidget(hScrollBar_, 1, 0);
+  connect(hScrollBar_, SIGNAL(valueChanged(int)),
+          this, SLOT(slotHScrolled(int)));
+
+  vScrollBar_->setSingleStep(50);
+  vScrollBar_->setCursor(Qt::ArrowCursor);
+  layout_->addWidget(vScrollBar_, 0, 1);
+  connect(vScrollBar_, SIGNAL(valueChanged(int)),
+          this, SLOT(slotVScrolled(int)));
+
+}
+
+bool hasScrollbars();
+
 void RS_GraphicView::paintEvent(QPaintEvent *) {
   getPixmapForView(pixmapLayer1_);
   getPixmapForView(pixmapLayer2_);
@@ -273,8 +369,8 @@ void RS_GraphicView::wheelEventInTrackpad(QWheelEvent *e) {
         hScrollBar_->setValue(hScrollBar_->value() - hDelta);
         vScrollBar_->setValue(vScrollBar_->value() - vDelta);
       } else {
-        //setCurrentAction(new RS_ActionZoomScroll(hDelta, vDelta,
-        //                                         *container, *this));
+        setCurrentAction(new RS_ActionZoomScroll(hDelta, vDelta,
+                        *container_, *this));
       }
     }
     redraw();
@@ -658,6 +754,34 @@ void RS_GraphicView::zoomWindow(RS_Vector v1, RS_Vector v2,
   adjustOffsetControls();
   adjustZoomControls();
 
+  redraw();
+}
+
+void RS_GraphicView::zoomPan(int dx, int dy) {
+  offsetX_ += dx;
+  offsetY_ += dy;
+
+  adjustOffsetControls();
+  redraw();
+}
+
+void RS_GraphicView::zoomScroll(RS2::Direction direction) {
+  switch (direction) {
+    case RS2::Up:
+      offsetY_ -= 50;
+      break;
+    case RS2::Down:
+      offsetY_ += 50;
+      break;
+    case RS2::Right:
+      offsetX_ += 50;
+      break;
+    case RS2::Left:
+      offsetX_ -= 50;
+      break;
+  }
+  adjustOffsetControls();
+  adjustZoomControls();
   redraw();
 }
 

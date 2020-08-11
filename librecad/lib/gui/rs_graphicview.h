@@ -6,6 +6,7 @@
 #include <QPixmap>
 #include <QMap>
 #include <QDateTime>
+#include <QGridLayout>
 
 #include <memory>
 
@@ -40,7 +41,7 @@ class RS_GraphicView : public QWidget
 
   //RS_Graphic *getGraphic() const;
 
-
+  void setBorders(int left, int top, int right, int bottom);
   void setBackground(const RS_Color& bg);
   RS_Color getBackground() const {
     return background_;
@@ -92,10 +93,13 @@ class RS_GraphicView : public QWidget
   void setFactorY(double f);
   RS_Vector getFactor() const;
 
+  void setOffset(int ox, int oy);
   void setOffsetX(int ox);
   void setOffsetY(int oy);
   int getOffsetX() const;
   int getOffsetY() const;
+  void centerOffsetX();
+  void centerOffsetY();
 
   RS_Vector getMousePosition() const;
 
@@ -113,6 +117,8 @@ class RS_GraphicView : public QWidget
   void zoomOutX(double f=1.5);
   void zoomOutY(double f=1.5);
   void zoomWindow(RS_Vector v1, RS_Vector v2, bool keepAspectRatio=true);
+  void zoomPan(int dx, int dy);
+  void zoomScroll(RS2::Direction direction);
   void saveView();
 
   RS_EntityContainer* getOverlayContainer(RS2::OverlayGraphics position);
@@ -122,6 +128,9 @@ class RS_GraphicView : public QWidget
   void setCurrentAction(RS_ActionInterface* action);
   RS_ActionInterface* getCurrentAction();
 
+  void addScrollbars();
+  bool hasScrollbars();
+
   QString device_;
 
  signals:
@@ -129,7 +138,10 @@ class RS_GraphicView : public QWidget
   void relativeZeroChanged(const RS_Vector);
   void previousZoomState(bool);
 
- public slots:
+ private slots:
+  void slotHScrolled(int value);
+  void slotVScrolled(int value);
+
 
  protected:
   void paintEvent(QPaintEvent *) override;
@@ -151,6 +163,7 @@ class RS_GraphicView : public QWidget
 
   QG_ScrollBar* hScrollBar_;
   QG_ScrollBar* vScrollBar_;
+  QGridLayout* layout_;
   bool isSmoothScrolling_{false};
 
   RS2::RedrawMethod redrawMethod_;
@@ -181,6 +194,11 @@ class RS_GraphicView : public QWidget
   unsigned short savedViewIndex_ = 0;
   unsigned short savedViewCount_ = 0;
   QDateTime previousViewTime;
+
+  int borderLeft_ = 0;
+  int borderTop_ = 0;
+  int borderRight_ = 0;
+  int borderBottom_ = 0;
 
   RS_Vector relativeZero_{false};
   bool relativeZeroLocked_{false};

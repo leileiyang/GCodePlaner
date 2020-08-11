@@ -23,41 +23,35 @@
 ** This copyright notice MUST APPEAR in all copies of the script!  
 **
 **********************************************************************/
-#ifndef RS_UNDOABLE_H
-#define RS_UNDOABLE_H
 
-#include "rs.h"
-#include "rs_flags.h"
+#ifndef RS_ACTIONZOOMSCROLL_H
+#define RS_ACTIONZOOMSCROLL_H
+
+#include "rs_actioninterface.h"
 
 
 /**
- * Base class for something that can be added and deleted and every 
- * addition and deletion can be undone.
+ * This action triggers a scrolling.
  *
- * @see RS_Undo
  * @author Andrew Mustun
  */
-class RS_Undoable : public RS_Flags {
+class RS_ActionZoomScroll : public RS_ActionInterface {
+	Q_OBJECT
 public:
-	/**
-     * Runtime type identification for undoables.
-     * Note that this is voluntarily. The default implementation 
-     * returns RS2::UndoableUnknown.
-     */
-	virtual RS2::UndoableType undoRtti() const {
-        return RS2::UndoableUnknown;
-    }
+    RS_ActionZoomScroll(RS2::Direction direction,
+                        RS_EntityContainer& container,
+                        RS_GraphicView& graphicView);
+    RS_ActionZoomScroll(int offsetX, int offsetY,
+                        RS_EntityContainer& container,
+                        RS_GraphicView& graphicView);
 
-	void changeUndoState();
-	void setUndoState(bool undone);
-	bool isUndone() const;
+	void init(int status=0) override;
+	void trigger() override;
 
-	/**
-	 * Can be overwritten by the implementing class to be notified
-	 * when the undo state changes (the undoable becomes visible / invisible).
-	 */
-    virtual void undoStateChanged(bool undone) = 0;
-
+protected:
+    RS2::Direction direction;
+    bool hasOffset;
+    int offsetX, offsetY;
 };
 
 #endif
