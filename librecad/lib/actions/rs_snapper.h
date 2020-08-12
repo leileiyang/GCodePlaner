@@ -149,14 +149,40 @@ public:
                 snapRange = r;
         }
 
+        /**manually set snapPoint*/
+    RS_Vector snapPoint(const RS_Vector& coord, bool setSpot = false);
+    RS_Vector snapPoint(QMouseEvent* e);
     RS_Vector snapFree(QMouseEvent* e);
 
     RS_Vector snapFree(const RS_Vector& coord);
     RS_Vector snapGrid(const RS_Vector& coord);
+    RS_Vector snapEndpoint(const RS_Vector& coord);
+    RS_Vector snapOnEntity(const RS_Vector& coord);
+    RS_Vector snapCenter(const RS_Vector& coord);
+    RS_Vector snapMiddle(const RS_Vector& coord);
+    RS_Vector snapDist(const RS_Vector& coord);
+    RS_Vector snapIntersection(const RS_Vector& coord);
+    //RS_Vector snapDirect(RS_Vector coord, bool abs);
+    RS_Vector snapToAngle(const RS_Vector &coord, const RS_Vector &ref_coord, const double ang_res);
 
     RS_Vector restrictOrthogonal(const RS_Vector& coord);
     RS_Vector restrictHorizontal(const RS_Vector& coord);
     RS_Vector restrictVertical(const RS_Vector& coord);
+
+
+    //RS_Entity* catchLeafEntity(const RS_Vector& pos);
+    //RS_Entity* catchLeafEntity(QMouseEvent* e);
+    RS_Entity* catchEntity(const RS_Vector& pos,
+                           RS2::ResolveLevel level=RS2::ResolveNone);
+    RS_Entity* catchEntity(QMouseEvent* e,
+                           RS2::ResolveLevel level=RS2::ResolveNone);
+    // catch Entity closest to pos and of the given entity type of enType, only search for a particular entity type
+    RS_Entity* catchEntity(const RS_Vector& pos, RS2::EntityType enType,
+                           RS2::ResolveLevel level=RS2::ResolveNone);
+    RS_Entity* catchEntity(QMouseEvent* e, RS2::EntityType enType,
+                           RS2::ResolveLevel level=RS2::ResolveNone);
+	RS_Entity* catchEntity(QMouseEvent* e, const EntityTypeList& enTypeList,
+                           RS2::ResolveLevel level=RS2::ResolveNone);
 
     /**
      * Suspends this snapper while another action takes place.
@@ -166,10 +192,14 @@ public:
     /**
      * Resumes this snapper after it has been suspended.
      */
-    virtual void resume() { }
+    virtual void resume() {
+        drawSnapper();
+    }
 
     virtual void hideOptions();
     virtual void showOptions();
+
+    void drawSnapper();
 
 protected:
     void deleteSnapper();

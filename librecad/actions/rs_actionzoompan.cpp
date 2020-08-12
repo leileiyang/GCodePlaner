@@ -29,9 +29,9 @@
 #include <QAction>
 #include <QMouseEvent>
 #include "rs_graphicview.h"
-//#include "rs_dialogfactory.h"
+#include "rs_dialogfactory.h"
 #include "rs_graphicview.h"
-//#include "rs_commands.h"
+#include "rs_commands.h"
 #include "rs_commandevent.h"
 #include "rs_debug.h"
 
@@ -112,7 +112,7 @@ void RS_ActionZoomPan::mouseReleaseEvent(QMouseEvent* e) {
 }
 
 void RS_ActionZoomPan::updateMouseButtonHints()
-{ /*
+{
     switch (getStatus()) {
             case SetPanStart:
         RS_DIALOGFACTORY->updateMouseWidget(tr("Click and drag to pan zoom"),
@@ -124,7 +124,7 @@ void RS_ActionZoomPan::updateMouseButtonHints()
                 break;
            default:
 		RS_DIALOGFACTORY->updateMouseWidget();
-    }*/
+    }
 }
 
 

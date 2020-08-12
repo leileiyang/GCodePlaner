@@ -27,11 +27,7 @@
 #ifndef RS_ACTIONZOOMIN_H
 #define RS_ACTIONZOOMIN_H
 
-#include <memory>
-
-#include "rs_vector.h"
 #include "rs_actioninterface.h"
-#include "rs_entitycontainer.h"
 
 /**
  * This action triggers zoom increase.

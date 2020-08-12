@@ -9,6 +9,8 @@
 #include "workpiece.h"
 #include "workpiecedata.h"
 
+#include "librecad/lib/engine/rs_graphic.h"
+
 namespace Ui {
 class GCodePlaner;
 }
@@ -35,6 +37,8 @@ private slots:
 private:
     Ui::GCodePlaner *ui;
     QGraphicsScene scene_;
+
+    RS_Document *document_;
 
     WorkpieceData workpiece_data_;
 };

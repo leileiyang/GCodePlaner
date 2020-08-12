@@ -16,7 +16,7 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="RS_GraphicView" name="shape_monitor_" native="true"/>
+     <widget class="QG_GraphicView" name="shape_monitor_" native="true"/>
     </item>
    </layout>
   </widget>
@@ -88,9 +88,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>RS_GraphicView</class>
+   <class>QG_GraphicView</class>
    <extends>QWidget</extends>
-   <header location="global">rs_graphicview.h</header>
+   <header location="global">qg_graphicview.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

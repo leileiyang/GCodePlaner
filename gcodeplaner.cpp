@@ -5,12 +5,24 @@
 #include <QFileDialog>
 
 #include "gcode/GCodeParser.h"
+#include "librecad/actions/rs_actiondefault.h"
 
 GCodePlaner::GCodePlaner(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::GCodePlaner) {
 
     ui->setupUi(this);
+
+    document_ = new RS_Graphic();
+    document_->newDoc();
+
+    ui->shape_monitor_->setContainer(document_);
+    ui->shape_monitor_->setDefaultAction(new RS_ActionDefault(*document_, *(ui->shape_monitor_)));
+    document_->setGraphicView(ui->shape_monitor_);
+
+    ui->shape_monitor_->setAntialiasing(false);
+    ui->shape_monitor_->setCursorHiding(false);
+    ui->shape_monitor_->addScrollbars();
 }
 
 GCodePlaner::~GCodePlaner() {
