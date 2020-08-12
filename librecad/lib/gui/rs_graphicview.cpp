@@ -12,12 +12,24 @@
 #include "rs_debug.h"
 #include "rs_actionzoomin.h"
 #include "rs_actionzoomscroll.h"
+#include "rs_actionzoompan.h"
+
+#ifdef Q_OS_WIN32
+#define CURSOR_SIZE 16
+#else
+#define CURSOR_SIZE 15
+#endif
 
 RS_GraphicView::RS_GraphicView(QWidget *parent) : QWidget(parent)
     ,device_("Mouse")
     ,eventHandler_(new RS_EventHandler(this))
     ,gridColor_(Qt::gray)
     ,metaGridColor_(64, 64, 64)
+    ,curCad(new QCursor(QPixmap(":ui/cur_cad_bmp.png"), CURSOR_SIZE, CURSOR_SIZE))
+    ,curDel(new QCursor(QPixmap(":ui/cur_del_bmp.png"), CURSOR_SIZE, CURSOR_SIZE))
+    ,curSelect(new QCursor(QPixmap(":ui/cur_select_bmp.png"), CURSOR_SIZE, CURSOR_SIZE))
+    ,curMagnifier(new QCursor(QPixmap(":ui/cur_glass_bmp.png"), CURSOR_SIZE, CURSOR_SIZE))
+    ,curHand(new QCursor(QPixmap(":ui/cur_hand_bmp.png"), CURSOR_SIZE, CURSOR_SIZE))
     ,redrawMethod_(RS2::RedrawAll)
     ,grid_(new RS_Grid(this))
     ,savedViews_(16) {
@@ -29,6 +41,14 @@ RS_GraphicView::RS_GraphicView(QWidget *parent) : QWidget(parent)
   RS_SETTINGS->endGroup();
 
   addScrollbars();
+
+  setFactorX(4.0);
+  setFactorY(4.0);
+  setBorders(10,10,10,10);
+
+  setMouseTracking(true);
+  setFocusPolicy(Qt::NoFocus);
+  setAttribute(Qt::WA_NoMousePropagation);
 }
 
 void RS_GraphicView::setBackground(const RS_Color& bg) {
@@ -37,6 +57,84 @@ void RS_GraphicView::setBackground(const RS_Color& bg) {
     foreground_ = RS_Color(0, 0, 0);
   } else {
     foreground_ = RS_Color(255, 255, 255);
+  }
+}
+
+/**
+ * Sets the mouse cursor to the given type.
+ */
+void RS_GraphicView::setMouseCursor(RS2::CursorType c) {
+  switch (c) {
+  default:
+  case RS2::ArrowCursor:
+      setCursor(Qt::ArrowCursor);
+      break;
+  case RS2::UpArrowCursor:
+      setCursor(Qt::UpArrowCursor);
+      break;
+  case RS2::CrossCursor:
+      setCursor(Qt::CrossCursor);
+      break;
+  case RS2::WaitCursor:
+      setCursor(Qt::WaitCursor);
+      break;
+  case RS2::IbeamCursor:
+      setCursor(Qt::IBeamCursor);
+      break;
+  case RS2::SizeVerCursor:
+      setCursor(Qt::SizeVerCursor);
+      break;
+  case RS2::SizeHorCursor:
+      setCursor(Qt::SizeHorCursor);
+      break;
+  case RS2::SizeBDiagCursor:
+      setCursor(Qt::SizeBDiagCursor);
+      break;
+  case RS2::SizeFDiagCursor:
+      setCursor(Qt::SizeFDiagCursor);
+      break;
+  case RS2::SizeAllCursor:
+      setCursor(Qt::SizeAllCursor);
+      break;
+  case RS2::BlankCursor:
+      setCursor(Qt::BlankCursor);
+      break;
+  case RS2::SplitVCursor:
+      setCursor(Qt::SplitVCursor);
+      break;
+  case RS2::SplitHCursor:
+      setCursor(Qt::SplitHCursor);
+      break;
+  case RS2::PointingHandCursor:
+      setCursor(Qt::PointingHandCursor);
+      break;
+  case RS2::ForbiddenCursor:
+      setCursor(Qt::ForbiddenCursor);
+      break;
+  case RS2::WhatsThisCursor:
+      setCursor(Qt::WhatsThisCursor);
+      break;
+  case RS2::OpenHandCursor:
+      setCursor(Qt::OpenHandCursor);
+      break;
+  case RS2::ClosedHandCursor:
+      setCursor(Qt::ClosedHandCursor);
+      break;
+  case RS2::CadCursor:
+      cursor_hiding_ ? setCursor(Qt::BlankCursor) : setCursor(*curCad);
+      break;
+  case RS2::DelCursor:
+      setCursor(*curDel);
+      break;
+  case RS2::SelectCursor:
+      setCursor(*curSelect);
+      break;
+  case RS2::MagnifierCursor:
+      setCursor(*curMagnifier);
+      break;
+  case RS2::MovingHandCursor:
+      setCursor(*curHand);
+      break;
   }
 }
 
@@ -174,6 +272,10 @@ void RS_GraphicView::centerOffsetY() {
   }
 }
 
+
+void RS_GraphicView::setCursorHiding(bool state) {
+  cursor_hiding_ = state;
+}
 
 RS_Vector RS_GraphicView::getMousePosition() const {
   //find mouse position
@@ -486,7 +588,27 @@ void RS_GraphicView::wheelEvent(QWheelEvent* e) {
   e->accept();
 }
 
+void RS_GraphicView::mousePressEvent(QMouseEvent *e) {
+  if (e->button() == Qt::MiddleButton) {
+    setCurrentAction(new RS_ActionZoomPan(*container_, *this));
+  }
+  eventHandler_->mousePressEvent(e);
+}
+
+void RS_GraphicView::mouseReleaseEvent(QMouseEvent *e) {
+  e->accept();
+  eventHandler_->mouseReleaseEvent(e);
+}
+
+void RS_GraphicView::mouseMoveEvent(QMouseEvent *e) {
+  e->accept();
+  eventHandler_->mouseMoveEvent(e);
+}
+
 void RS_GraphicView::resizeEvent(QResizeEvent* /*e*/) {
+  adjustOffsetControls();
+  adjustZoomControls();
+  getOverlayContainer(RS2::Snapper)->clear();
   redraw();
 }
 
@@ -821,4 +943,12 @@ RS_ActionInterface* RS_GraphicView::getCurrentAction() {
   } else {
     return nullptr;
   }
+}
+
+bool RS_GraphicView::isPanning() const {
+  return panning_;
+}
+
+void RS_GraphicView::setPanning(bool state) {
+  panning_ = state;
 }

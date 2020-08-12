@@ -40,6 +40,7 @@ class RS_GraphicView : public QWidget
   void adjustZoomControls();
 
   //RS_Graphic *getGraphic() const;
+  void setMouseCursor(RS2::CursorType c);
 
   void setBorders(int left, int top, int right, int bottom);
   void setBackground(const RS_Color& bg);
@@ -103,6 +104,10 @@ class RS_GraphicView : public QWidget
 
   RS_Vector getMousePosition() const;
 
+  void setCursorHiding(bool state);
+  void setPanning(bool state);
+  bool isPanning() const;
+
   RS_Vector const &getRelativeZero() const;
   void setRelativeZero(const RS_Vector &pos);
   void moveRelativeZero(const RS_Vector &pos);
@@ -144,6 +149,9 @@ class RS_GraphicView : public QWidget
 
 
  protected:
+  void mousePressEvent(QMouseEvent *e) override;
+  void mouseReleaseEvent(QMouseEvent *e) override;
+  void mouseMoveEvent(QMouseEvent *e) override;
   void paintEvent(QPaintEvent *) override;
   void resizeEvent(QResizeEvent* e) override;
   void wheelEvent(QWheelEvent* e) override;
@@ -164,6 +172,13 @@ class RS_GraphicView : public QWidget
   QG_ScrollBar* hScrollBar_;
   QG_ScrollBar* vScrollBar_;
   QGridLayout* layout_;
+
+  std::unique_ptr<QCursor> curCad;
+  std::unique_ptr<QCursor> curDel;
+  std::unique_ptr<QCursor> curSelect;
+  std::unique_ptr<QCursor> curMagnifier;
+  std::unique_ptr<QCursor> curHand;
+
   bool isSmoothScrolling_{false};
 
   RS2::RedrawMethod redrawMethod_;
@@ -184,6 +199,7 @@ class RS_GraphicView : public QWidget
   bool scrollbars_{false};
   bool zoomFrozen_{false};
   bool printPreview_{false};
+  bool cursor_hiding_{false};
 
   RS_Vector factor_= RS_Vector(1., 1.);
   int offsetX_ = 0;
@@ -204,6 +220,7 @@ class RS_GraphicView : public QWidget
   bool relativeZeroLocked_{false};
 
   QMap<int, RS_EntityContainer *> overlayEntities_;
+  bool panning_{false};
 };
 
 #endif // FL_GRAPHICVIEW_H

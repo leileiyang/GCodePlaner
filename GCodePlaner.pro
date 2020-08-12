@@ -52,7 +52,8 @@ SOURCES += main.cpp\
     librecad/lib/gui/rs_eventhandler.cpp \
     librecad/lib/actions/rs_snapper.cpp \
     librecad/lib/engine/rs_entitycontainer.cpp \
-    librecad/actions/rs_actionzoomscroll.cpp
+    librecad/actions/rs_actionzoomscroll.cpp \
+    librecad/actions/rs_actionzoompan.cpp
 
 HEADERS  += gcodeplaner.h \
     gcodepath.h \
@@ -90,7 +91,8 @@ HEADERS  += gcodeplaner.h \
     librecad/lib/actions/rs_snapper.h \
     librecad/lib/engine/rs_entitycontainer.h \
     librecad/lib/gui/rs_coordinateevent.h \
-    librecad/actions/rs_actionzoomscroll.h
+    librecad/actions/rs_actionzoomscroll.h \
+    librecad/actions/rs_actionzoompan.h
 
 FORMS    += gcodeplaner.ui \
     shapemonitor.ui
@@ -99,3 +101,8 @@ unix:!macx: LIBS += -L$$PWD/../../../../usr/local/lib/ -lmuparser
 
 INCLUDEPATH += $$PWD/../../../../usr/local/include
 DEPENDPATH += $$PWD/../../../../usr/local/include
+
+DISTFILES +=
+
+RESOURCES += \
+    librecad/res/ui/ui.qrc
