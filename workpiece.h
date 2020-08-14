@@ -2,30 +2,28 @@
 #define WORKPIECE_H
 
 #include <QtCore/QRectF>
-#include <QGraphicsScene>
 #include <QGraphicsItemGroup>
 
 #include "gcodepath.h"
 #include "workpiecedata.h"
-#include "torch.h"
+
+#include "librecad/lib/engine/rs_entitycontainer.h"
+#include "librecad/lib/gui/rs_pen.h"
 
 class Workpiece : public QObject
 {
   Q_OBJECT
 public:
-  Workpiece(int id, WorkpieceData &data, QObject *parent = 0);
+  Workpiece(int id, WorkpieceData &data, RS_EntityContainer *container);
   ~Workpiece();
 
   int WorkpieceId () const {
     return id_;
   }
 
-  void AddToScene(QGraphicsScene *scene);
-  void RemoveFromScene(QGraphicsScene *scene);
-
-  QRectF WorkpieceSize() const {
-    return cutting_path_->boundingRect().united(move_path_->boundingRect());
-  }
+  //QRectF WorkpieceSize() const {
+  //  return cutting_path_->boundingRect().united(move_path_->boundingRect());
+  //}
   void Draw();
 
 signals:
@@ -35,12 +33,15 @@ public slots:
 private:
   int id_;
   WorkpieceData &data_;
-  bool ownership_;
+  RS_EntityContainer *container_;
 
-  Torch *torch_;
-  GCodePath *move_path_;
-  GCodePath *cutting_path_;
-  QGraphicsItemGroup *group_;
+  RS_Pen move_path_pen_;
+  RS_Pen cutting_path_pen_;
+
+  void AddCutLine(double x0, double y0, double x1, double y1);
+  void AddMoveLine(double x0, double y0, double x1, double y1);
+  void AddLine(double x0, double y0, double x1, double y1, const RS_Pen &pen);
+  void AddArc(const Point_2D &start, const Point_2D &end, const Point_2D &center, int direction);
 
 };
 

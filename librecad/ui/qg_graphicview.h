@@ -57,11 +57,6 @@ public:
     QG_GraphicView(QWidget* parent = 0, Qt::WindowFlags f = 0, RS_Document* doc = 0);
 	~QG_GraphicView() override;
 
-    void setSceneRect(const QRectF &/*rect*/) {}
-    void setScene(QGraphicsScene */*scene*/) {}
-    void onRestore() {}
-
-
 	int getWidth() const override;
 	int getHeight() const override;
 	void redraw(RS2::RedrawMethod method=RS2::RedrawAll) override;

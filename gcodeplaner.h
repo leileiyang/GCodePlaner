@@ -2,7 +2,6 @@
 #define GCODEPLANER_H
 
 #include <QMainWindow>
-#include <QGraphicsScene>
 
 #include "neomath/neomath.h"
 
@@ -36,7 +35,6 @@ private slots:
 
 private:
     Ui::GCodePlaner *ui;
-    QGraphicsScene scene_;
 
     RS_Document *document_;
 
