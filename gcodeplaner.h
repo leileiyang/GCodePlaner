@@ -13,6 +13,7 @@
 #include "librecad/ui/qg_actionhandler.h"
 
 class LC_ActionGroupManager;
+class QG_GraphicView;
 
 namespace Ui {
 class GCodePlaner;
@@ -44,6 +45,8 @@ private:
     Ui::GCodePlaner *ui;
 
     RS_Document *document_;
+
+    QG_GraphicView *graphic_view_;
 
     QG_ActionHandler *action_handler_{nullptr};
 

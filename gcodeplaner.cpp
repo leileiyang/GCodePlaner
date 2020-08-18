@@ -12,6 +12,7 @@
 #include "lc_actiongroupmanager.h"
 #include "lc_actionfactory.h"
 #include "lc_widgetfactory.h"
+#include "qg_graphicview.h"
 
 GCodePlaner::GCodePlaner(QWidget *parent) :
     QMainWindow(parent),
@@ -24,15 +25,16 @@ GCodePlaner::GCodePlaner(QWidget *parent) :
     document_ = new RS_Graphic();
     document_->newDoc();
 
-    ui->graphic_view_->setContainer(document_);
-    ui->graphic_view_->setDefaultAction(new RS_ActionDefault(*document_, *(ui->graphic_view_)));
-    document_->setGraphicView(ui->graphic_view_);
+    graphic_view_ = new QG_GraphicView(ui->centralWidget, 0, document_);
+    graphic_view_->setObjectName(QStringLiteral("graphic_view_"));
 
-    ui->graphic_view_->setAntialiasing(false);
-    ui->graphic_view_->setCursorHiding(false);
-    ui->graphic_view_->addScrollbars();
+    graphic_view_->setAntialiasing(false);
+    graphic_view_->setCursorHiding(false);
+    graphic_view_->addScrollbars();
 
-    action_handler_->setView(ui->graphic_view_);
+    ui->horizontalLayout->addWidget(graphic_view_);
+
+    action_handler_->setView(graphic_view_);
     action_handler_->setDocument(document_);
 
 
@@ -45,7 +47,8 @@ GCodePlaner::GCodePlaner(QWidget *parent) :
 }
 
 GCodePlaner::~GCodePlaner() {
-    delete ui;
+  delete ui;
+  delete document_;
 }
 
 void GCodePlaner::on_actionOpen_triggered()
@@ -59,7 +62,7 @@ void GCodePlaner::on_actionOpen_triggered()
 
   Workpiece workpiece(0, workpiece_data_, document_);
   workpiece.Draw();
-  ui->graphic_view_->redraw(RS2::RedrawDrawing);
+  graphic_view_->redraw(RS2::RedrawDrawing);
 }
 
 void GCodePlaner::on_actionXMirror_triggered()
@@ -102,5 +105,5 @@ void GCodePlaner::on_actionRestore_triggered()
   RS_Arc *arc = new RS_Arc(document_, arc_data);
   document_->addEntity(arc);
 
-  ui->graphic_view_->redraw(RS2::RedrawDrawing);
+  graphic_view_->redraw(RS2::RedrawDrawing);
 }

@@ -14,11 +14,7 @@
    <string>GCodePlaner</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <widget class="QG_GraphicView" name="graphic_view_" native="true"/>
-    </item>
-   </layout>
+   <layout class="QHBoxLayout" name="horizontalLayout"/>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -86,14 +82,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>QG_GraphicView</class>
-   <extends>QWidget</extends>
-   <header location="global">qg_graphicview.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
