@@ -3,6 +3,7 @@
 #include "ui_gcodeplaner.h"
 
 #include <QFileDialog>
+#include <QKeyEvent>
 
 #include "gcode/GCodeParser.h"
 #include "librecad/actions/rs_actiondefault.h"
@@ -13,6 +14,9 @@
 #include "lc_actionfactory.h"
 #include "lc_widgetfactory.h"
 #include "qg_graphicview.h"
+#include "rs_selection.h"
+#include "rs_dialogfactory.h"
+#include "rs_debug.h"
 
 GCodePlaner::GCodePlaner(QWidget *parent) :
     QMainWindow(parent),
@@ -106,4 +110,45 @@ void GCodePlaner::on_actionRestore_triggered()
   document_->addEntity(arc);
 
   graphic_view_->redraw(RS2::RedrawDrawing);
+}
+
+void GCodePlaner::slotKillAllActions() {
+  if (graphic_view_ && document_) {
+    graphic_view_->killAllActions();
+    RS_Selection s((RS_EntityContainer &)*document_, graphic_view_);
+    s.selectAll(false);
+    RS_DIALOGFACTORY->updateSelectionWidget(document_->countSelected(),
+                                            document_->totalSelectedLength());
+
+    graphic_view_->redraw(RS2::RedrawAll);
+  }
+}
+
+void GCodePlaner::slotEnter() {
+  RS_DEBUG->print("QC_ApplicationWindow::slotEnter(): begin\n");
+  if (graphic_view_) {
+    graphic_view_->enter();
+  }
+  RS_DEBUG->print("QC_ApplicationWindow::slotEnter(): end\n");
+}
+
+void GCodePlaner::keyPressEvent(QKeyEvent *e) {
+  switch (e->key()) {
+    case Qt::Key_Escape:
+      slotKillAllActions();
+    case Qt::Key_Return:
+    case Qt::Key_Enter:
+      slotEnter();
+      e->accept();
+      break;
+    default:
+      e->ignore();
+      RS_DEBUG->print("QC_ApplicationWindow::KeyPressEvent: IGNORED");
+      break;
+  }
+  if (e->isAccepted()) {
+    RS_DEBUG->print("QC_ApplicationWindow::KeyPressEvent: Accepted");
+    return;
+  }
+  QMainWindow::keyPressEvent(e);
 }

@@ -27,8 +27,14 @@ class GCodePlaner : public QMainWindow
   explicit GCodePlaner(QWidget *parent = 0);
   ~GCodePlaner();
 
- QMap<QString, QAction*> a_map_;
- LC_ActionGroupManager *ag_manager_{nullptr};
+  virtual void keyPressEvent(QKeyEvent *e) override;
+
+  QMap<QString, QAction*> a_map_;
+  LC_ActionGroupManager *ag_manager_{nullptr};
+
+ public slots:
+  void slotKillAllActions();
+  void slotEnter();
 
 private slots:
   void on_actionOpen_triggered();
