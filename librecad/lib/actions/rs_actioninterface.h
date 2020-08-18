@@ -31,15 +31,12 @@
 #include <QObject>
 
 #include "rs_snapper.h"
-#include "rs.h"
 
 class QKeyEvent;
-class QMouseEvent;
 class RS_CommandEvent;
 class RS_CoordinateEvent;
 class RS_Graphic;
 class RS_Document;
-class RS_GraphicView;
 class QAction;
 
 /**
@@ -119,12 +116,12 @@ protected:
      * Pointer to the graphic is this container is a graphic.
      * NULL otherwise
      */
-    //RS_Graphic* graphic;
+    RS_Graphic* graphic;
 
-    /**
-      * Pointer to the document (graphic or block) or NULL.
-      */
-    //RS_Document* document;
+        /**
+         * Pointer to the document (graphic or block) or NULL.
+         */
+        RS_Document* document;
 
     /**
      * Pointer to the default mouse cursor for this action or NULL.

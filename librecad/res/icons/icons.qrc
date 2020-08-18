@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>grid.svg</file>
+        <file>zoom_auto.svg</file>
+        <file>zoom_in.svg</file>
+        <file>zoom_out.svg</file>
+        <file>zoom_previous.svg</file>
+        <file>zoom_window.svg</file>
+        <file>zoom_pan.svg</file>
+        <file>icons.qrc</file>
+        <file>redraw.svg</file>
+    </qresource>
+</RCC>

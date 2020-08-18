@@ -8,11 +8,16 @@
 #include "librecad/actions/rs_actiondefault.h"
 #include "librecad/lib/engine/rs_line.h"
 #include "rs_arc.h"
-#include "librecad/actions/rs_actionzoomauto.h"
+#include "rs_actionzoomauto.h"
+#include "lc_actiongroupmanager.h"
+#include "lc_actionfactory.h"
+#include "lc_widgetfactory.h"
 
 GCodePlaner::GCodePlaner(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::GCodePlaner) {
+    ag_manager_(new LC_ActionGroupManager(this)),
+    ui(new Ui::GCodePlaner),
+    action_handler_(new QG_ActionHandler(this)) {
 
     ui->setupUi(this);
 
@@ -26,6 +31,17 @@ GCodePlaner::GCodePlaner(QWidget *parent) :
     ui->graphic_view_->setAntialiasing(false);
     ui->graphic_view_->setCursorHiding(false);
     ui->graphic_view_->addScrollbars();
+
+    action_handler_->setView(ui->graphic_view_);
+    action_handler_->setDocument(document_);
+
+
+    LC_ActionFactory a_factory(this, action_handler_);
+    a_factory.using_theme = false;
+    a_factory.fillActionContainer(a_map_, ag_manager_);
+
+    LC_WidgetFactory widget_factory(this, a_map_, ag_manager_);
+    widget_factory.createStandardToolbars(action_handler_);
 }
 
 GCodePlaner::~GCodePlaner() {
@@ -43,8 +59,7 @@ void GCodePlaner::on_actionOpen_triggered()
 
   Workpiece workpiece(0, workpiece_data_, document_);
   workpiece.Draw();
-  //ui->graphic_view_->redraw(RS2::RedrawDrawing);
-  ui->graphic_view_->setCurrentAction(new RS_ActionZoomAuto(*document_, *(ui->graphic_view_)));
+  ui->graphic_view_->redraw(RS2::RedrawDrawing);
 }
 
 void GCodePlaner::on_actionXMirror_triggered()

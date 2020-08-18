@@ -27,9 +27,9 @@
 #include <QKeyEvent>
 #include "rs_actioninterface.h"
 #include "rs_graphicview.h"
-//#include "rs_commands.h"
+#include "rs_commands.h"
 //#include "rs_dialogfactory.h"
-//#include "rs_coordinateevent.h"
+#include "rs_coordinateevent.h"
 #include "rs_debug.h"
 
 /**
@@ -49,8 +49,9 @@
  *               be reset to the one given here.
  */
 RS_ActionInterface::RS_ActionInterface(const char* name,
-     RS_EntityContainer& container, RS_GraphicView& graphicView):
-     RS_Snapper(container, graphicView) {
+                                       RS_EntityContainer& container,
+                                       RS_GraphicView& graphicView) :
+RS_Snapper(container, graphicView) {
 
     RS_DEBUG->print("RS_ActionInterface::RS_ActionInterface: Setting up action: \"%s\"", name);
 
@@ -62,10 +63,10 @@ RS_ActionInterface::RS_ActionInterface(const char* name,
     // graphic provides a pointer to the graphic if the
     // entity container is a graphic (i.e. can also hold
     // layers).
-    //graphic = container.getGraphic();
+    graphic = container.getGraphic();
 
     // document pointer will be used for undo / redo
-    //document = container.getDocument();
+    document = container.getDocument();
 
     //this->cursor = cursor;
     //setSnapMode(graphicView.getDefaultSnapMode());
@@ -106,12 +107,12 @@ void RS_ActionInterface::init(int status)
 {
     setStatus(status);
     if (status>=0) {
-        //RS_Snapper::init();
+        RS_Snapper::init();
         updateMouseButtonHints();
         updateMouseCursor();
     }else{
         //delete snapper when finished, bug#3416878
-        //deleteSnapper();
+        deleteSnapper();
 
     }
 }
@@ -254,7 +255,7 @@ void RS_ActionInterface::finish(bool /*updateTB*/)
 		status = -1;
 		finished = true;
 		hideOptions();
-        //RS_Snapper::finish();
+		RS_Snapper::finish();
 	}
 	RS_DEBUG->print("RS_ActionInterface::finish: OK");
 }
@@ -271,7 +272,7 @@ void RS_ActionInterface::setPredecessor(RS_ActionInterface* pre) {
  * Suspends this action while another action takes place.
  */
 void RS_ActionInterface::suspend() {
-    //RS_Snapper::suspend();
+    RS_Snapper::suspend();
 }
 
 /**
@@ -280,21 +281,21 @@ void RS_ActionInterface::suspend() {
 void RS_ActionInterface::resume() {
     updateMouseCursor();
     updateMouseButtonHints();
-    //RS_Snapper::resume();
+    RS_Snapper::resume();
 }
 
 /**
  * Hides the tool options. Default implementation does nothing.
  */
 void RS_ActionInterface::hideOptions() {
-    //RS_Snapper::hideOptions();
+    RS_Snapper::hideOptions();
 }
 
 /**
  * Shows the tool options. Default implementation does nothing.
  */
 void RS_ActionInterface::showOptions() {
-    //RS_Snapper::showOptions();
+    RS_Snapper::showOptions();
 }
 
 void RS_ActionInterface::setActionType(RS2::ActionType actionType){
@@ -306,23 +307,20 @@ void RS_ActionInterface::setActionType(RS2::ActionType actionType){
  */
 bool RS_ActionInterface::checkCommand(const QString& cmd, const QString& str,
                                       RS2::ActionType action) {
-    //return RS_COMMANDS->checkCommand(cmd, str, action);
-    return true;
+    return RS_COMMANDS->checkCommand(cmd, str, action);
 }
 
 /**
  * Calls command() from the RS_COMMANDS module.
  */
 QString RS_ActionInterface::command(const QString& cmd) {
-    //return RS_COMMANDS->command(cmd);
-    return "";
+    return RS_COMMANDS->command(cmd);
 }
 
 /**
  * Calls msgAvailableCommands() from the RS_COMMANDS module.
  */
 QString RS_ActionInterface::msgAvailableCommands() {
-    //return RS_COMMANDS->msgAvailableCommands();
-    return "";
+    return RS_COMMANDS->msgAvailableCommands();
 }
 

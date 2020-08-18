@@ -22,6 +22,9 @@ INCLUDEPATH += \
     librecad/lib/modification \
     librecad/lib/creation \
     librecad/actions \
+    librecad/actions/zoom \
+    librecad/actions/draw \
+    librecad/actions/edit \
     librecad/cmd \
     librecad/ui/
 
@@ -53,12 +56,9 @@ SOURCES += main.cpp\
     librecad/lib/engine/rs_graphic.cpp \
     librecad/lib/engine/rs_variabledict.cpp \
     librecad/lib/actions/rs_actioninterface.cpp \
-    librecad/actions/rs_actionzoomin.cpp \
     librecad/lib/gui/rs_eventhandler.cpp \
     librecad/lib/actions/rs_snapper.cpp \
     librecad/lib/engine/rs_entitycontainer.cpp \
-    librecad/actions/rs_actionzoomscroll.cpp \
-    librecad/actions/rs_actionzoompan.cpp \
     librecad/lib/engine/rs_entity.cpp \
     librecad/lib/engine/rs_arc.cpp \
     librecad/lib/engine/rs_block.cpp \
@@ -96,7 +96,6 @@ SOURCES += main.cpp\
     librecad/actions/rs_actiondefault.cpp \
     librecad/actions/rs_actionmodifydelete.cpp \
     librecad/actions/rs_actionselectsingle.cpp \
-    librecad/actions/rs_actionzoomauto.cpp \
     librecad/lib/actions/rs_preview.cpp \
     librecad/lib/actions/rs_previewactioninterface.cpp \
     librecad/lib/modification/rs_modification.cpp \
@@ -107,7 +106,31 @@ SOURCES += main.cpp\
     librecad/lib/engine/lc_undosection.cpp \
     librecad/lib/engine/rs_image.cpp \
     librecad/lib/engine/rs_clipboard.cpp \
-    librecad/lib/engine/rs_overlayline.cpp
+    librecad/lib/engine/rs_overlayline.cpp \
+    librecad/ui/qg_actionhandler.cpp \
+    librecad/actions/zoom/rs_actionzoomauto.cpp \
+    librecad/actions/zoom/rs_actionzoomin.cpp \
+    librecad/actions/zoom/rs_actionzoompan.cpp \
+    librecad/actions/zoom/rs_actionzoomscroll.cpp \
+    librecad/actions/zoom/rs_actionzoomprevious.cpp \
+    librecad/actions/zoom/rs_actionzoomredraw.cpp \
+    librecad/actions/zoom/rs_actionzoomwindow.cpp \
+    librecad/actions/draw/rs_actiondrawline.cpp \
+    librecad/actions/draw/rs_actiondrawlineangle.cpp \
+    librecad/actions/draw/rs_actiondrawlinehorvert.cpp \
+    librecad/actions/draw/rs_actiondrawpoint.cpp \
+    librecad/actions/draw/rs_actiondrawlinefree.cpp \
+    librecad/actions/draw/rs_actiondrawlineparallel.cpp \
+    librecad/actions/draw/rs_actiondrawlineparallelthrough.cpp \
+    librecad/actions/draw/rs_actiondrawlinerectangle.cpp \
+    librecad/actions/draw/rs_actiondrawlinerelangle.cpp \
+    librecad/actions/draw/rs_actiondrawlinetangent1.cpp \
+    librecad/actions/draw/rs_actiondrawlinetangent2.cpp \
+    librecad/actions/draw/rs_actiondrawpolyline.cpp \
+    librecad/actions/edit/rs_actioneditundo.cpp \
+    librecad/ui/lc_widgetfactory.cpp \
+    librecad/ui/lc_actiongroupmanager.cpp \
+    librecad/ui/lc_actionfactory.cpp
 
 HEADERS  += gcodeplaner.h \
     gcodepath.h \
@@ -139,14 +162,11 @@ HEADERS  += gcodeplaner.h \
     librecad/lib/engine/rs_variable.h \
     librecad/lib/engine/rs_variabledict.h \
     librecad/lib/actions/rs_actioninterface.h \
-    librecad/actions/rs_actionzoomin.h \
     librecad/lib/gui/rs_eventhandler.h \
     librecad/lib/gui/rs_commandevent.h \
     librecad/lib/actions/rs_snapper.h \
     librecad/lib/engine/rs_entitycontainer.h \
     librecad/lib/gui/rs_coordinateevent.h \
-    librecad/actions/rs_actionzoomscroll.h \
-    librecad/actions/rs_actionzoompan.h \
     librecad/lib/engine/rs_entity.h \
     librecad/lib/engine/rs_arc.h \
     librecad/lib/engine/rs_block.h \
@@ -190,7 +210,6 @@ HEADERS  += gcodeplaner.h \
     librecad/actions/rs_actiondefault.h \
     librecad/actions/rs_actionmodifydelete.h \
     librecad/actions/rs_actionselectsingle.h \
-    librecad/actions/rs_actionzoomauto.h \
     librecad/lib/actions/rs_preview.h \
     librecad/lib/actions/rs_previewactioninterface.h \
     librecad/lib/modification/rs_modification.h \
@@ -201,7 +220,31 @@ HEADERS  += gcodeplaner.h \
     librecad/lib/engine/lc_undosection.h \
     librecad/lib/engine/rs_image.h \
     librecad/lib/engine/rs_clipboard.h \
-    librecad/lib/engine/rs_overlayline.h
+    librecad/lib/engine/rs_overlayline.h \
+    librecad/ui/qg_actionhandler.h \
+    librecad/actions/zoom/rs_actionzoomauto.h \
+    librecad/actions/zoom/rs_actionzoomin.h \
+    librecad/actions/zoom/rs_actionzoompan.h \
+    librecad/actions/zoom/rs_actionzoomscroll.h \
+    librecad/actions/zoom/rs_actionzoomprevious.h \
+    librecad/actions/zoom/rs_actionzoomredraw.h \
+    librecad/actions/zoom/rs_actionzoomwindow.h \
+    librecad/actions/draw/rs_actiondrawline.h \
+    librecad/actions/draw/rs_actiondrawlineangle.h \
+    librecad/actions/draw/rs_actiondrawlinehorvert.h \
+    librecad/actions/draw/rs_actiondrawpoint.h \
+    librecad/actions/draw/rs_actiondrawlinefree.h \
+    librecad/actions/draw/rs_actiondrawlineparallel.h \
+    librecad/actions/draw/rs_actiondrawlineparallelthrough.h \
+    librecad/actions/draw/rs_actiondrawlinerectangle.h \
+    librecad/actions/draw/rs_actiondrawlinerelangle.h \
+    librecad/actions/draw/rs_actiondrawlinetangent1.h \
+    librecad/actions/draw/rs_actiondrawlinetangent2.h \
+    librecad/actions/draw/rs_actiondrawpolyline.h \
+    librecad/actions/edit/rs_actioneditundo.h \
+    librecad/ui/lc_widgetfactory.h \
+    librecad/ui/lc_actiongroupmanager.h \
+    librecad/ui/lc_actionfactory.h
 
 FORMS    += gcodeplaner.ui \
     shapemonitor.ui
@@ -214,4 +257,5 @@ DEPENDPATH += $$PWD/../../../../usr/local/include
 DISTFILES +=
 
 RESOURCES += \
-    librecad/res/ui/ui.qrc
+    librecad/res/ui/ui.qrc \
+    librecad/res/icons/icons.qrc
