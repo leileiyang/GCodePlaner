@@ -28,7 +28,6 @@
 #define QG_GRAPHICVIEW_H
 
 #include <QWidget>
-#include <QGraphicsScene>
 
 #include "rs_graphicview.h"
 #include "rs_layerlistlistener.h"
@@ -69,16 +68,16 @@ public:
 	virtual	void getPixmapForView(std::unique_ptr<QPixmap>& pm);
 		
     // Methods from RS_LayerListListener Interface:
-    void layerEdited(RS_Layer*) override{
-        redraw(RS2::RedrawDrawing);
+	void layerEdited(RS_Layer*) override{
+        redraw(RS2::RedrawDrawing); 
     }
-    void layerRemoved(RS_Layer*) override{
-        redraw(RS2::RedrawDrawing);
+	void layerRemoved(RS_Layer*) override{
+        redraw(RS2::RedrawDrawing); 
     }
-    void layerToggled(RS_Layer*) override{
-        redraw(RS2::RedrawDrawing);
+	void layerToggled(RS_Layer*) override{
+        redraw(RS2::RedrawDrawing); 
     }
-    void layerActivated(RS_Layer *) override;
+	void layerActivated(RS_Layer *) override;
     /**
      * @brief setOffset
      * @param ox, offset X
