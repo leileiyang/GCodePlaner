@@ -890,7 +890,7 @@ void QG_GraphicView::getPixmapForView(std::unique_ptr<QPixmap>& pm)
 		return;
 	pm.reset(new QPixmap(getWidth(), getHeight()));
 }
-/*
+
 void QG_GraphicView::layerActivated(RS_Layer *layer) {
 	RS_SETTINGS->beginGroup("/Modify");
 	bool toActivated= (RS_SETTINGS->readNumEntry("/ModifyEntitiesToActiveLayer", 0)==1);
@@ -939,7 +939,7 @@ void QG_GraphicView::layerActivated(RS_Layer *layer) {
     container->calculateBorders();
     container->setSelected(false);
     redraw(RS2::RedrawDrawing);
-}*/
+}
 
 
 /**

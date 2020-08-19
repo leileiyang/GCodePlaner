@@ -31,8 +31,8 @@
 #include <QGraphicsScene>
 
 #include "rs_graphicview.h"
-//#include "rs_layerlistlistener.h"
-//#include "rs_blocklistlistener.h"
+#include "rs_layerlistlistener.h"
+#include "rs_blocklistlistener.h"
 
 class QGridLayout;
 class QLabel;
@@ -47,9 +47,9 @@ class QG_ScrollBar;
  * Instances of this class can be linked to layer lists using
  * addLayerListListener().
  */
-class QG_GraphicView:   public RS_GraphicView
-                        //public RS_LayerListListener,
-                        //public RS_BlockListListener
+class QG_GraphicView:   public RS_GraphicView,
+                        public RS_LayerListListener,
+                        public RS_BlockListListener
 {
     Q_OBJECT
 
@@ -69,16 +69,16 @@ public:
 	virtual	void getPixmapForView(std::unique_ptr<QPixmap>& pm);
 		
     // Methods from RS_LayerListListener Interface:
-    //void layerEdited(RS_Layer*) override{
- //       redraw(RS2::RedrawDrawing);
- //   }
-    //void layerRemoved(RS_Layer*) override{
- //       redraw(RS2::RedrawDrawing);
- //   }
-    //void layerToggled(RS_Layer*) override{
- //       redraw(RS2::RedrawDrawing);
- //   }
-    //void layerActivated(RS_Layer *) override;
+    void layerEdited(RS_Layer*) override{
+        redraw(RS2::RedrawDrawing);
+    }
+    void layerRemoved(RS_Layer*) override{
+        redraw(RS2::RedrawDrawing);
+    }
+    void layerToggled(RS_Layer*) override{
+        redraw(RS2::RedrawDrawing);
+    }
+    void layerActivated(RS_Layer *) override;
     /**
      * @brief setOffset
      * @param ox, offset X
