@@ -30,6 +30,13 @@ class QG_ActionHandler : public QObject {
   void slotZoomPreivous();
   void slotZoomRedraw();
 
+  void slotEditKillAllActions();
+  void slotEditUndo();
+  void slotEditRedo();
+  void slotEditCut();
+  void slotEditCopy();
+  void slotEditPaste();
+
  private:
   RS2::ActionType orderType{RS2::ActionNone};
   RS_GraphicView *view_{nullptr};

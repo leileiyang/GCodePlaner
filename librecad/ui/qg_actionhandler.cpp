@@ -20,6 +20,12 @@
 #include "rs_actiondrawlineparallelthrough.h"
 #include "rs_actiondrawlinerectangle.h"
 
+#include "rs_actionselect.h"
+#include "rs_actionselectall.h"
+#include "rs_actioneditcopy.h"
+#include "rs_actioneditpaste.h"
+#include "rs_actioneditundo.h"
+
 QG_ActionHandler::QG_ActionHandler(QObject *parent) : QObject(parent)
 {
 
@@ -110,31 +116,31 @@ RS_ActionInterface* QG_ActionHandler::setCurrentAction(RS2::ActionType id) {
         //}
         break;
     case RS2::ActionEditUndo:
-        //a = new RS_ActionEditUndo(true, *document_, *view_);
+        a = new RS_ActionEditUndo(true, *document_, *view_);
         break;
     case RS2::ActionEditRedo:
-        //a = new RS_ActionEditUndo(false, *document_, *view_);
+        a = new RS_ActionEditUndo(false, *document_, *view_);
         break;
     case RS2::ActionEditCut:
-        //if(!document_->countSelected()){
-        //    a = new RS_ActionSelect(this, *document_, *view_, RS2::ActionEditCutNoSelect);
-        //    break;
-        //}
+        if(!document_->countSelected()){
+            a = new RS_ActionSelect(this, *document_, *view_, RS2::ActionEditCutNoSelect);
+            break;
+        }
         // fall-through
     case RS2::ActionEditCutNoSelect:
-        //a = new RS_ActionEditCopy(false, *document_, *view_);
+        a = new RS_ActionEditCopy(false, *document_, *view_);
         break;
     case RS2::ActionEditCopy:
-        /*if(!document_->countSelected()){
+        if(!document_->countSelected()){
             a = new RS_ActionSelect(this, *document_, *view_, RS2::ActionEditCopyNoSelect);
             break;
-        }*/
+        }
         // fall-through
     case RS2::ActionEditCopyNoSelect:
-        //a = new RS_ActionEditCopy(true, *document_, *view_);
+        a = new RS_ActionEditCopy(true, *document_, *view_);
         break;
     case RS2::ActionEditPaste:
-        //a = new RS_ActionEditPaste(*document_, *view_);
+        a = new RS_ActionEditPaste(*document_, *view_);
         break;
     case RS2::ActionOrderBottom:
         /*orderType = RS2::ActionOrderBottom;
@@ -812,4 +818,29 @@ void QG_ActionHandler::slotZoomPreivous() {
 
 void QG_ActionHandler::slotZoomRedraw() {
   setCurrentAction(RS2::ActionZoomRedraw);
+}
+
+void QG_ActionHandler::slotEditKillAllActions() {
+  setCurrentAction(RS2::ActionEditKillAllActions);
+}
+
+void QG_ActionHandler::slotEditUndo() {
+  killAllActions();
+  setCurrentAction(RS2::ActionEditUndo);
+}
+
+void QG_ActionHandler::slotEditRedo() {
+  setCurrentAction(RS2::ActionEditRedo);
+}
+
+void QG_ActionHandler::slotEditCut() {
+  setCurrentAction(RS2::ActionEditCut);
+}
+
+void QG_ActionHandler::slotEditCopy() {
+  setCurrentAction(RS2::ActionEditCopy);
+}
+
+void QG_ActionHandler::slotEditPaste() {
+  setCurrentAction(RS2::ActionEditPaste);
 }

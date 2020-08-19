@@ -16,6 +16,18 @@ LC_WidgetFactory::LC_WidgetFactory(GCodePlaner *main_win,
 void LC_WidgetFactory::createStandardToolbars(QG_ActionHandler */*action_handler*/) {
   QSizePolicy tool_bar_policy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
+  QToolBar *edit_toolbar = new QToolBar(GCodePlaner::tr("Edit"), main_window_);
+  edit_toolbar->setSizePolicy(tool_bar_policy);
+  edit_toolbar->setObjectName("edit_toolbar");
+  edit_toolbar->addAction(a_map_["EditKillAllActions"]);
+  edit_toolbar->addSeparator();
+  edit_toolbar->addAction(a_map_["EditUndo"]);
+  edit_toolbar->addAction(a_map_["EditRedo"]);
+  edit_toolbar->addSeparator();
+  edit_toolbar->addAction(a_map_["EditCut"]);
+  edit_toolbar->addAction(a_map_["EditCopy"]);
+  edit_toolbar->addAction(a_map_["EditPaste"]);
+
   QToolBar *view_toolbar = new QToolBar(GCodePlaner::tr("View"), main_window_);
   view_toolbar->setObjectName("view_toolbar");
   view_toolbar->setSizePolicy(tool_bar_policy);
@@ -30,5 +42,6 @@ void LC_WidgetFactory::createStandardToolbars(QG_ActionHandler */*action_handler
   view_toolbar->addAction(a_map_["ZoomWindow"]);
   view_toolbar->addAction(a_map_["ZoomPan"]);
 
+  main_window_->addToolBar(Qt::TopToolBarArea, edit_toolbar);
   main_window_->addToolBar(Qt::TopToolBarArea, view_toolbar);
 }

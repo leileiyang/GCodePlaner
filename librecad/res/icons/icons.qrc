@@ -9,5 +9,11 @@
         <file>zoom_pan.svg</file>
         <file>icons.qrc</file>
         <file>redraw.svg</file>
+        <file>copy.svg</file>
+        <file>cursor.svg</file>
+        <file>cut.svg</file>
+        <file>paste.svg</file>
+        <file>redo.svg</file>
+        <file>undo.svg</file>
     </qresource>
 </RCC>

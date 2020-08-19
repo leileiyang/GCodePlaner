@@ -130,7 +130,11 @@ SOURCES += main.cpp\
     librecad/actions/edit/rs_actioneditundo.cpp \
     librecad/ui/lc_widgetfactory.cpp \
     librecad/ui/lc_actiongroupmanager.cpp \
-    librecad/ui/lc_actionfactory.cpp
+    librecad/ui/lc_actionfactory.cpp \
+    librecad/actions/edit/rs_actioneditcopy.cpp \
+    librecad/actions/edit/rs_actioneditpaste.cpp \
+    librecad/actions/edit/rs_actionselect.cpp \
+    librecad/actions/edit/rs_actionselectall.cpp
 
 HEADERS  += gcodeplaner.h \
     gcodepath.h \
@@ -244,7 +248,11 @@ HEADERS  += gcodeplaner.h \
     librecad/actions/edit/rs_actioneditundo.h \
     librecad/ui/lc_widgetfactory.h \
     librecad/ui/lc_actiongroupmanager.h \
-    librecad/ui/lc_actionfactory.h
+    librecad/ui/lc_actionfactory.h \
+    librecad/actions/edit/rs_actioneditcopy.h \
+    librecad/actions/edit/rs_actioneditpaste.h \
+    librecad/actions/edit/rs_actionselect.h \
+    librecad/actions/edit/rs_actionselectall.h
 
 FORMS    += gcodeplaner.ui \
     shapemonitor.ui

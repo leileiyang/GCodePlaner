@@ -1205,7 +1205,7 @@ void LC_ActionFactory::fillActionContainer(QMap<QString, QAction*>& a_map, LC_Ac
 void LC_ActionFactory::commonActions(QMap<QString, QAction*>& a_map, LC_ActionGroupManager* agm)
 {
     QAction* action;
-/*
+
     // <[~ Edit ~]>
 
     action = new QAction(tr("&Selection pointer"), agm->edit);
@@ -1271,7 +1271,7 @@ void LC_ActionFactory::commonActions(QMap<QString, QAction*>& a_map, LC_ActionGr
     connect(action, SIGNAL(triggered()),
     action_handler, SLOT(slotEditPaste()));
     action->setObjectName("EditPaste");
-    a_map["EditPaste"] = action; */
+    a_map["EditPaste"] = action;
 
     // <[~ Zoom ~]>
 
