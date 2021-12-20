@@ -26,7 +26,7 @@
      <x>0</x>
      <y>0</y>
      <width>609</width>
-     <height>25</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -35,7 +35,24 @@
     </property>
     <addaction name="actionOpen"/>
    </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actionXMirror"/>
+    <addaction name="actionYMirror"/>
+    <addaction name="actionRotate"/>
+    <addaction name="actionRestore"/>
+   </widget>
+   <widget class="QMenu" name="menuDeslagging">
+    <property name="title">
+     <string>Deslagging</string>
+    </property>
+    <addaction name="actionDeslagging"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuDeslagging"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -50,8 +67,33 @@
    <property name="text">
     <string>Open</string>
    </property>
+  </action>
+  <action name="actionXMirror">
+   <property name="text">
+    <string>XMirror</string>
+   </property>
+  </action>
+  <action name="actionYMirror">
+   <property name="text">
+    <string>YMirror</string>
+   </property>
+  </action>
+  <action name="actionRotate">
+   <property name="text">
+    <string>Rotate</string>
+   </property>
    <property name="shortcut">
-    <string>Ctrl+O</string>
+    <string>R</string>
+   </property>
+  </action>
+  <action name="actionRestore">
+   <property name="text">
+    <string>Restore</string>
+   </property>
+  </action>
+  <action name="actionDeslagging">
+   <property name="text">
+    <string>Deslagging</string>
    </property>
   </action>
  </widget>

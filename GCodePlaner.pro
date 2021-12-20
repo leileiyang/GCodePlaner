@@ -17,19 +17,26 @@ SOURCES += main.cpp\
     gcodepath.cpp \
     gcode/GCodeParser.cpp \
     gcode/GCommand.cpp \
-    gcode_math/ecnc2math.c \
-    gcode_math/math_object.cpp \
     shapemonitor.cpp \
-    pathmanager.cpp
+    workpiece.cpp \
+    workpiecedata.cpp \
+    neomath/neomath.cpp \
+    neomath/ecnc2math.c \
+    torch.cpp \
+    gcode/deslaggingcode.cpp
 
 HEADERS  += gcodeplaner.h \
     gcodepath.h \
     gcode/GCodeParser.h \
     gcode/GCommand.h \
-    gcode_math/ecnc2math.h \
-    gcode_math/math_object.h \
     shapemonitor.h \
-    pathmanager.h
+    workpiece.h \
+    workpiecedata.h \
+    neomath/ecnc2math.h \
+    neomath/neomath.h \
+    gcode/GCodeDefine.h \
+    torch.h \
+    gcode/deslaggingcode.h
 
 FORMS    += gcodeplaner.ui \
     shapemonitor.ui

@@ -1,11 +1,6 @@
 #include "gcodepath.h"
 
-#include <math.h>
-
 #include <QtGui/QPainter>
-
-#include "gcode_math/ecnc2math.h"
-#include "gcode_math/math_object.h"
 
 GCodePath::GCodePath(QColor color, double width, QGraphicsItem *parent):
     QGraphicsItem(parent),
