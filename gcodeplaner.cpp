@@ -2,9 +2,10 @@
 
 #include "ui_gcodeplaner.h"
 
-#include <QtGui/QFileDialog>
+#include <QFileDialog>
 
 #include "gcode/GCodeParser.h"
+#include "gcode/deslaggingcode.h"
 
 GCodePlaner::GCodePlaner(QWidget *parent) :
     QMainWindow(parent),
@@ -67,4 +68,19 @@ void GCodePlaner::on_actionRotate_triggered()
 void GCodePlaner::on_actionRestore_triggered()
 {
   ui->shape_monitor_->onRestore();
+}
+
+void GCodePlaner::on_actionDeslagging_triggered()
+{
+  workpiece_data_.Clear();
+  scene_.clear();
+
+  DeslaggingCode deslagging;
+  workpiece_data_.LoadGCode(deslagging.GetDeslaggingCode(3, 7));
+
+  Workpiece workpiece(0, workpiece_data_);
+  workpiece.Draw();
+  workpiece.AddToScene(&scene_);
+  ui->shape_monitor_->setScene(&scene_);
+  ui->shape_monitor_->setSceneRect(workpiece.WorkpieceSize());
 }

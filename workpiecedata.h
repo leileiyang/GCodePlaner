@@ -16,6 +16,10 @@ public:
   friend class GCodeParser;
   friend class Workpiece;
 
+  void LoadGCode(const std::vector<GCommand> &code) {
+    gcodes_ = code;
+  }
+
   void Rotate(double angle);
   void XMirror();
   void YMirror();

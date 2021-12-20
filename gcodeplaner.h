@@ -2,7 +2,7 @@
 #define GCODEPLANER_H
 
 #include <QMainWindow>
-#include <QtGui/QGraphicsScene>
+#include <QGraphicsScene>
 
 #include "neomath/neomath.h"
 
@@ -18,8 +18,8 @@ class GCodePlaner : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit GCodePlaner(QWidget *parent = 0);
-    ~GCodePlaner();
+  explicit GCodePlaner(QWidget *parent = 0);
+  ~GCodePlaner();
 
 private slots:
   void on_actionOpen_triggered();
@@ -31,6 +31,8 @@ private slots:
   void on_actionRotate_triggered();
 
   void on_actionRestore_triggered();
+
+  void on_actionDeslagging_triggered();
 
 private:
     Ui::GCodePlaner *ui;

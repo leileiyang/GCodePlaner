@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     workpiecedata.cpp \
     neomath/neomath.cpp \
     neomath/ecnc2math.c \
-    torch.cpp
+    torch.cpp \
+    gcode/deslaggingcode.cpp
 
 HEADERS  += gcodeplaner.h \
     gcodepath.h \
@@ -34,7 +35,8 @@ HEADERS  += gcodeplaner.h \
     neomath/ecnc2math.h \
     neomath/neomath.h \
     gcode/GCodeDefine.h \
-    torch.h
+    torch.h \
+    gcode/deslaggingcode.h
 
 FORMS    += gcodeplaner.ui \
     shapemonitor.ui
