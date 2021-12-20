@@ -1,7 +1,7 @@
 #ifndef TORCH_H
 #define TORCH_H
 
-#include <QtGui/QGraphicsItem>
+#include <QGraphicsItem>
 
 class Torch : public QGraphicsItem {
  public:

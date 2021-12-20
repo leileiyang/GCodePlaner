@@ -2,9 +2,9 @@
 #define SHAPEMONITOR_H
 
 #include <QWidget>
-#include <QtGui/QGraphicsScene>
-#include <QtGui/QGraphicsItem>
-#include <QtGui/QWheelEvent>
+#include <QGraphicsScene>
+#include <QGraphicsItem>
+#include <QWheelEvent>
 #include <QtGui/QMatrix>
 
 namespace Ui {
